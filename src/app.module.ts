@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import {DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_NAME} from './secret'
 import { User } from './modules/user/entity/user.entity';
 import { UserModule } from './modules/user/user.module';
 
@@ -9,17 +10,17 @@ import { UserModule } from './modules/user/user.module';
     // 按照个人 mysql 设置
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
+      host: DB_HOST,
+      port: DB_PORT,
       // 需要写自己的
-      username: 'root',
+      username: DB_USERNAME,
       // 需要写自己的
-      password: 'dltjdwns12@',
+      password: DB_PASSWORD,
       // 需要创建一个 ‘forwardingQuotationPlatform’ schema
-      database: 'forwardingQuotationPlatform',
+      database: DB_NAME,
       // 创建的 entity 需要 import 到这里
       entities: [User],
-      synchronize: true,
+      //synchronize: true,
     }),
     UserModule,
   ],
