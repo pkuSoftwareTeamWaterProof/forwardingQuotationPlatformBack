@@ -4,45 +4,24 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
     CreateDateColumn,
-    OneToMany,
+    ManyToOne,
   } from 'typeorm';
-  
-  import { Answer } from '../../answer/entity/answer.entity';
 
+  import { Sheet } from '../../sheet/entity/sheet.entity';
   @Entity()
-  export class Sheet {
+  export class Answer {
     @PrimaryGeneratedColumn('uuid')
     id: string;
   
     @Column()
-    startpoint: string;
-  
-    @Column()
-    endpoint: string;
-
-    @Column()
-    weight: number;
-
-    @Column()
-    size: number;
-
-    @Column()
-    species: string;
-
-    @Column()
-    type_of_shipping: string;
+    price: number;
 
     @Column()
     remark: string;
 
-    @Column()
-    startdate: string;
-
-    @Column()
-    enddate: string;
-
-    @OneToMany(() => Answer, (answer) => answer.sheet)
-    answer: Answer[]
+    
+    @ManyToOne(() => Sheet, (sheet) => sheet.answer)
+    sheet: Sheet
   
     @CreateDateColumn({
       type: 'timestamp',

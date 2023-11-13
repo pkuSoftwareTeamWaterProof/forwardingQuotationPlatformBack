@@ -5,6 +5,8 @@ import { User } from './modules/user/entity/user.entity';
 import { Sheet } from './modules/sheet/entity/sheet.entity';
 import { UserModule } from './modules/user/user.module';
 import { SheetModule } from './modules/sheet/sheet.module';
+import { Answer } from './modules/answer/entity/answer.entity';
+import { AnswerModule } from './modules/answer/answer.module';
 
 @Module({
   imports: [
@@ -21,10 +23,12 @@ import { SheetModule } from './modules/sheet/sheet.module';
       // 需要创建一个 ‘forwardingQuotationPlatform’ schema
       database: DB_NAME,
       // 创建的 entity 需要 import 到这里
-      entities: [User,Sheet],
+      entities: [User,Sheet,Answer],
       //synchronize: true,
     }),
     UserModule,
+    SheetModule,
+    AnswerModule,
   ],
 })
 export class AppModule {}
