@@ -27,6 +27,7 @@
     "@nestjs/swagger": "^7.1.11",
     "@nestjs/typeorm": "^10.0.0",
     "mysql2": "^3.6.1",
+    "nest": "^0.1.6",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",

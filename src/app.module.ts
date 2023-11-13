@@ -14,9 +14,9 @@ import { UserModule } from './modules/user/user.module';
       // 需要写自己的
       username: 'root',
       // 需要写自己的
-      password: 'dltjdwns12@',
+      password: '14735826270',
       // 需要创建一个 ‘forwardingQuotationPlatform’ schema
-      database: 'forwardingQuotationPlatform',
+      database: 'softwork',
       // 创建的 entity 需要 import 到这里
       entities: [User],
       synchronize: true,
