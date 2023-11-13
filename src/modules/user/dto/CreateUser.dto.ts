@@ -13,4 +13,6 @@ export class CreateUserDTO {
     minLength: 6,
   })
   password: string;
+
+  
 }
