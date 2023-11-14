@@ -14,5 +14,10 @@ export class CreateAnswerDTO {
   })
   remark: string;
 
+  @ApiProperty({
+    description: '订单id',
+    example: '535',
+  })
+  Sheetid: string;
  
 }

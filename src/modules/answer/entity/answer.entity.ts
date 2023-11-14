@@ -21,7 +21,7 @@ import {
 
     
     @ManyToOne(() => Sheet, (sheet) => sheet.answer)
-    sheet: Sheet
+    sheets: Sheet
   
     @CreateDateColumn({
       type: 'timestamp',

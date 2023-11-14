@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateSheetDTO } from './dto/createSheet.dto';
 import { Sheet } from './entity/sheet.entity';
+import { Answer } from '../answer/entity/answer.entity';
 
 @Injectable()
 export class SheetService {
@@ -22,6 +23,7 @@ export class SheetService {
     sheet.remark = createSheetDTO.remark;
     sheet.startdate = createSheetDTO.startdate;
     sheet.enddate = createSheetDTO.enddate;
+    await this.sheetRepository.manager.save(sheet)
   }
 
   async getSheetById(Sheetid: string): Promise<Sheet> {
