@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Sheet } from './entity/answer.entity';
-import { SheetController } from './answer.controller';
-import { SheetService } from './answer.service';
+import { Answer } from './entity/answer.entity';
+import { AnswerController } from './answer.controller';
+import { AnswerService } from './answer.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Sheet])],
-  controllers: [SheetController],
-  providers: [SheetService],
+  imports: [TypeOrmModule.forFeature([Answer])],
+  controllers: [AnswerController],
+  providers: [AnswerService],
 })
-export class SheetModule {}
+export class AnswerModule {}

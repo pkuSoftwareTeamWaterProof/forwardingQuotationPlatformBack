@@ -15,7 +15,7 @@ export class AnswerController {
     return;
   }
 
-  @Get(':userId')
+  @Get(':answerID')
   getUserById(@Param() answerid: string): Promise<Answer> {
     const answer = this.answerservice.getAnswerById(answerid);
     return answer;
