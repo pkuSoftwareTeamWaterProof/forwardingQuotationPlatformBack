@@ -18,6 +18,10 @@ export class UserService {
   ) {}
 
   async createFirm(createFirmDTO:CreateFirmDTO){
+    if(await this.getFirmByName(createFirmDTO.name)!=null){
+      console.warn("A duplicate firm name: ", createFirmDTO.name);
+      return;
+    }
     const firm = new Firm();
     firm.name=createFirmDTO.name;
     firm.description=createFirmDTO.description;
@@ -30,7 +34,16 @@ export class UserService {
     return firm;
   }
 
+  async getFirmByName(firmName: string): Promise<Firm> {
+    const firm = await this.firmRepository.findOneBy({name:firmName});
+    return firm;
+  }
+
   async createAdministrator(createAdministratorDTO: CreateAdministratorDTO){
+    if(await this.getUserByName(createAdministratorDTO.username)!=null){
+      console.warn("A duplicate user name: ", createAdministratorDTO.username);
+      return;
+    }
     const user = new Administrator();
     user.username = createAdministratorDTO.username;
     user.password = createAdministratorDTO.password;
@@ -38,6 +51,10 @@ export class UserService {
   }
 
   async createCustomer(createCustomerDTO: CreateCustomerDTO) {
+    if(await this.getUserByName(createCustomerDTO.username)!=null){
+      console.warn("A duplicate user name: ", createCustomerDTO.username);
+      return;
+    }
     const user = new Customer();
     user.username = createCustomerDTO.username;
     user.password = createCustomerDTO.password;
@@ -47,6 +64,10 @@ export class UserService {
   }
 
   async createForwarder(createForwarderDTO: CreateForwarderDTO){
+    if(await this.getUserByName(createForwarderDTO.username)!=null){
+      console.warn("A duplicate user name: ", createForwarderDTO.username);
+      return;
+    }
     const user = new Forwarder();
     user.username = createForwarderDTO.username;
     user.password = createForwarderDTO.password;
@@ -58,10 +79,30 @@ export class UserService {
   }
 
   async getUserById(userId: string): Promise<User> {
-    console.log(userId);
     const user=await this.customerRepository
       .findOneByOrFail({ id: userId })
-      .catch((error) => this.forwarderRepository.findOneByOrFail({id: userId}).catch((error) => this.administratorRepository.findOneByOrFail({id: userId})));
+      .catch(
+        (error) => this.forwarderRepository
+          .findOneByOrFail({id: userId})
+          .catch(
+            (error) => this.administratorRepository
+              .findOneBy({id: userId})
+          )
+      );
+    return user;
+  }
+
+  async getUserByName(userName: string): Promise<User> {
+    const user=await this.customerRepository
+      .findOneByOrFail({ username: userName })
+      .catch(
+        (error) => this.forwarderRepository
+          .findOneByOrFail({username: userName})
+          .catch(
+            (error) => this.administratorRepository
+              .findOneBy({username: userName})
+          )
+      );
     return user;
   }
 }
