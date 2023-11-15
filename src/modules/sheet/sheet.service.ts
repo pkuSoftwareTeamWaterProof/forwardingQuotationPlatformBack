@@ -25,6 +25,10 @@ export class SheetService {
     sheet.enddate = createSheetDTO.enddate;
     await this.sheetRepository.manager.save(sheet)
   }
+ 
+  async findAll(): Promise<Sheet[]> {
+    return this.sheetRepository.find();
+  }
 
   async getSheetById(Sheetid: string): Promise<Sheet> {
     const sheet = await this.sheetRepository.findOneBy({ id: Sheetid });

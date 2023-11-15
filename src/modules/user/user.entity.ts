@@ -71,6 +71,7 @@ export class Customer extends User {
 
   @Column({nullable:true})
   email: string
+  
 }
 
 @Entity()

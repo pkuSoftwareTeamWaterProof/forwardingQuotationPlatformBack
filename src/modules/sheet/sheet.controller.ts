@@ -15,8 +15,13 @@ export class SheetController {
     return;
   }
 
-  @Get(':userId')
-  getUserById(@Param() sheetid: string): Promise<Sheet> {
+  @Get()
+  getAllSheet(): Promise<Sheet[]> {
+    return this.sheetservice.findAll();
+  }
+
+  @Get(':sheetId')
+  getSheetById(@Param() sheetid: string): Promise<Sheet> {
     const sheet = this.sheetservice.getSheetById(sheetid);
     return sheet;
   }
