@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_NAME} from './secret'
-import { User } from './modules/user/entity/user.entity';
+import { Firm, Customer, Forwarder, Administrator } from './modules/user/user.entity';
 import { Sheet } from './modules/sheet/entity/sheet.entity';
 import { UserModule } from './modules/user/user.module';
 import { SheetModule } from './modules/sheet/sheet.module';
@@ -23,7 +23,7 @@ import { AnswerModule } from './modules/answer/answer.module';
       // 需要创建一个 ‘forwardingQuotationPlatform’ schema
       database: DB_NAME,
       // 创建的 entity 需要 import 到这里
-      entities: [User,Sheet,Answer],
+      entities: [Firm, Customer, Forwarder, Administrator,Sheet,Answer],
       synchronize: true,
     }),
     UserModule,
