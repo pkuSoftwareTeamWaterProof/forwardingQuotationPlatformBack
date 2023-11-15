@@ -3,14 +3,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateAnswerDTO } from './dto/CreateAnswer.dto';
 import { Answer } from './entity/answer.entity';
+
 import { SheetService } from '../sheet/sheet.service';
 
 @Injectable()
 export class AnswerService {
   constructor(
+    private  readonly findsheet: SheetService,
+
     @InjectRepository(Answer)
-    private readonly answerRepository: Repository<Answer>, private readonly findsheet: SheetService
-  ) {}
+    private readonly answerRepository: Repository<Answer>, 
+  ) {} 
 
   async createAnswer(createAnswerDTO: CreateAnswerDTO) {
     const answer = new Answer();

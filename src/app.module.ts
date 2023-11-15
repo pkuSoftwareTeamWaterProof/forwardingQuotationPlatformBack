@@ -24,7 +24,7 @@ import { AnswerModule } from './modules/answer/answer.module';
       database: DB_NAME,
       // 创建的 entity 需要 import 到这里
       entities: [User,Sheet,Answer],
-      //synchronize: true,
+      synchronize: true,
     }),
     UserModule,
     SheetModule,
