@@ -29,7 +29,7 @@ npm run start:dev
 ```
 
 正常运行之后可以试用一下地址
-API 请求地址： `localhost:3000`
-API 文档：`localhost:3000/api`
+API 请求地址： `localhost:3001`
+API 文档：`localhost:3001/api`
 
 ---
