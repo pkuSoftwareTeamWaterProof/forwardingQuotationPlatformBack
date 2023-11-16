@@ -5,7 +5,7 @@ import { AnswerService } from './answer.service';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('answer')
-@Controller('answer')
+@Controller('api/answer')
 export class AnswerController {
   constructor(private readonly answerservice: AnswerService) {}
 

@@ -5,7 +5,7 @@ import { SheetService } from './sheet.service';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('sheet')
-@Controller('sheet')
+@Controller('api/sheet')
 export class SheetController {
   constructor(private readonly sheetservice: SheetService) {}
 
