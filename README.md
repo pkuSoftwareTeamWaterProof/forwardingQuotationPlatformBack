@@ -2,9 +2,9 @@
 
 ## 数据库部署
 
-数据库配置（用户名、用户密码、数据库名）等位于`src/secret.ts`文件中，该文件模板可见`src/secret-template.ts`
+数据库配置（用户名、用户密码、数据库名）等位于项目根目录下的`.env`文件中，该文件模板可见`.env-template`。需要注意即使文件里没有用引号引起来，整数依然被当作一个字符串传入，需要用`parseInt`等函数进行预处理。
 
-安装mysql。设置用户。根据mysql的用户名和用户密码设置`src/secret.ts`中的`DB_USERNAME`和`DB_PASSWORD`两项。
+安装mysql。设置用户。根据mysql的用户名和用户密码设置`.env`中的`DB_USERNAME`和`DB_PASSWORD`两项。
 
 修改期望的数据库名`DB_NAME`。然后启动mysql服务并登录。执行如下命令：
 
