@@ -5,11 +5,9 @@ import {
     UpdateDateColumn,
     CreateDateColumn,
     OneToMany,
-    ManyToOne
   } from 'typeorm';
   
-import { Answer } from '../../answer/entity/answer.entity';
-import { Customer } from '../../user/user.entity'
+  import { Answer } from '../../answer/entity/answer.entity';
 
   @Entity()
   export class Sheet {
@@ -57,8 +55,5 @@ import { Customer } from '../../user/user.entity'
       name: 'UpdateDate',
     })
     updatedAt: Date | undefined;
-
-    @ManyToOne(type => Customer, customer => customer.sheets)
-    customer: Customer;
   }
   

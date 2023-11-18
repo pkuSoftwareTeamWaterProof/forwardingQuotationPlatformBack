@@ -35,5 +35,5 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 # project
-.env
+src/secret.ts
 test-scripts/

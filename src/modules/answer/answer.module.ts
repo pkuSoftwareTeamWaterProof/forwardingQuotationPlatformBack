@@ -5,9 +5,8 @@ import { AnswerController } from './answer.controller';
 import { AnswerService } from './answer.service';
 import { SheetService } from '../sheet/sheet.service';
 import { Sheet } from '../sheet/entity/sheet.entity';
-import { UserModule } from '../user/user.module';
 @Module({
-  imports: [TypeOrmModule.forFeature([Answer]),TypeOrmModule.forFeature([Sheet]), UserModule],
+  imports: [TypeOrmModule.forFeature([Answer]),TypeOrmModule.forFeature([Sheet])],
   controllers: [AnswerController],
   providers: [AnswerService,SheetService],
 })

@@ -19,10 +19,5 @@ export class CreateAnswerDTO {
     example: '535',
   })
   Sheetid: string;
-
-  @ApiProperty({
-    description: '货代UUID'
-  })
-  forwarderID: string;
  
 }
