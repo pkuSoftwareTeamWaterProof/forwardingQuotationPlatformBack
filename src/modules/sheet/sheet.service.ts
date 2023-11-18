@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateSheetDTO } from './dto/createSheet.dto';
 import { Sheet } from './entity/sheet.entity';
 import { Answer } from '../answer/entity/answer.entity';
-import { UserRole } from '../user/user.entity';
+import { UserRole, Customer } from '../user/user.entity';
 import { UserService } from '../user/user.service';
 
 @Injectable()
@@ -31,6 +31,8 @@ export class SheetService {
     sheet.remark = createSheetDTO.remark;
     sheet.startdate = createSheetDTO.startdate;
     sheet.enddate = createSheetDTO.enddate;
+    sheet.customer = (user as Customer);
+    sheet.customer.sheets.unshift(sheet);
     await this.sheetRepository.manager.save(sheet)
   }
  
