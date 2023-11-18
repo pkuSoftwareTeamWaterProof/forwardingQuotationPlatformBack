@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 
 import { Sheet } from "../sheet/entity/sheet.entity"
+import { Answer } from '../answer/entity/answer.entity';
 
 @Entity()
 export class Firm{
@@ -93,6 +94,9 @@ export class Forwarder extends User {
 
   @ManyToOne(type=>Firm, firm=>firm.employees)
   firm:Firm;
+
+  @OneToMany(type => Answer, answer => answer.forwarder)
+  answers: Answer[];
 
   role = UserRole.FORWARDER;
 }
