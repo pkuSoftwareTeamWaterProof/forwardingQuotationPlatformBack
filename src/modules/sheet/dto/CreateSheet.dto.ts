@@ -55,4 +55,9 @@ export class CreateSheetDTO {
     example: '2023-12-01',
   })
   enddate: string;
+
+  @ApiProperty({
+    description: 'Customer的UUID'
+  })
+  customerID: string;
 }
