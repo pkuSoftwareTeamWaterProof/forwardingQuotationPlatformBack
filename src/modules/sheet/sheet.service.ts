@@ -32,7 +32,6 @@ export class SheetService {
     sheet.startdate = createSheetDTO.startdate;
     sheet.enddate = createSheetDTO.enddate;
     sheet.customer = (user as Customer);
-    sheet.customer.sheets.unshift(sheet);
     await this.sheetRepository.manager.save(sheet)
   }
  
