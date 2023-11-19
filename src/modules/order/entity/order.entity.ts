@@ -4,28 +4,32 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
     CreateDateColumn,
-    ManyToOne,
+    OneToOne,
+    JoinColumn,
   } from 'typeorm';
 
   import { Sheet } from '../../sheet/entity/sheet.entity';
+  import { Answer } from '../../answer/entity/answer.entity';
   @Entity()
-  export class Answer {
+  export class Order {
     @PrimaryGeneratedColumn('uuid')
     id: string;
   
     @Column({default:true})
     live: boolean;
-    
-    @Column()
-    price: number;
 
     @Column()
-    remark: string;
+    context: string;
 
     
-    @ManyToOne(() => Sheet, (sheet) => sheet.answer)
+    @OneToOne(() => Sheet)
+    @JoinColumn()
     sheet: Sheet
   
+    @OneToOne(() => Answer)
+    @JoinColumn()
+    answer: Answer
+
     @CreateDateColumn({
       type: 'timestamp',
       name: 'CreateDate',
