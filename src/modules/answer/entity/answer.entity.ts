@@ -1,41 +1,36 @@
 import {
-    Entity,
-    Column,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn,
-    CreateDateColumn,
-    ManyToOne,
-  } from 'typeorm';
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  CreateDateColumn,
+  ManyToOne,
+} from 'typeorm';
 
-  import { Sheet } from '../../sheet/entity/sheet.entity';
-  @Entity()
-  export class Answer {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
-  
-    @Column({default:true})
-    live: boolean;
-    
-    @Column()
-    price: number;
+import { Sheet } from '../../sheet/entity/sheet.entity';
+@Entity()
+export class Answer {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column()
-    remark: string;
+  @Column()
+  price: number;
 
-    
-    @ManyToOne(() => Sheet, (sheet) => sheet.answer)
-    sheet: Sheet
-  
-    @CreateDateColumn({
-      type: 'timestamp',
-      name: 'CreateDate',
-    })
-    createdAt: Date | undefined;
-  
-    @UpdateDateColumn({
-      type: 'timestamp',
-      name: 'UpdateDate',
-    })
-    updatedAt: Date | undefined;
-  }
-  
+  @Column()
+  remark: string;
+
+  @ManyToOne(() => Sheet, (sheet) => sheet.answer)
+  sheet: Sheet;
+
+  @CreateDateColumn({
+    type: 'timestamp',
+    name: 'CreateDate',
+  })
+  createdAt: Date | undefined;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    name: 'UpdateDate',
+  })
+  updatedAt: Date | undefined;
+}

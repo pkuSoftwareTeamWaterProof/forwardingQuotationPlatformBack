@@ -28,7 +28,7 @@ export class SheetService {
 
   async updateSheet(Sheetid: string, createSheetDTO: CreateSheetDTO) {
     const sheet = await this.sheetRepository.findOneBy({ id: Sheetid });
-    if (!sheet.answer && sheet.live) {
+    if (!sheet.answer) {
       sheet.startpoint = createSheetDTO.startpoint;
       sheet.endpoint = createSheetDTO.endpoint;
       sheet.weight = createSheetDTO.weight;
@@ -45,17 +45,11 @@ export class SheetService {
   }
 
   async deleteSheet(Sheetid: string) {
-    const sheet = await this.sheetRepository.findOneBy({ id: Sheetid });
-    sheet.live = false;
-    await this.sheetRepository.manager.save(sheet);
+    const sheet = await this.sheetRepository.softDelete({ id: Sheetid });
   }
 
   async findAll(): Promise<Sheet[]> {
-    return this.sheetRepository.find({
-      where: {
-        live: true, // 这里可以根据需要更改条件，比如 { items: [] } 来查询空数组的实体
-      },
-    });
+    return this.sheetRepository.find();
   }
 
   async Select(startpoints: string, endpoints: string): Promise<Sheet[]> {
@@ -69,10 +63,6 @@ export class SheetService {
 
   async getSheetById(Sheetid: string): Promise<Sheet> {
     const sheet = await this.sheetRepository.findOneBy({ id: Sheetid });
-    if (sheet.live) {
-      return sheet;
-    } else {
-      return null;
-    }
+    return sheet;
   }
 }

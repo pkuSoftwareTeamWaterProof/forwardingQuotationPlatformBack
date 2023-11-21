@@ -28,10 +28,6 @@ export class OrderService {
 
   async getOrderById(Orderid: string): Promise<Order> {
     const order = await this.orderRepository.findOneBy({ id: Orderid });
-    if (order.live) {
-      return order;
-    } else {
-      return null;
-    }
+    return order;
   }
 }

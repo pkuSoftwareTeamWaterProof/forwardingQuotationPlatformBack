@@ -15,9 +15,6 @@ export class Order {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ default: true })
-  live: boolean;
-
   @Column()
   context: string;
 
