@@ -7,7 +7,13 @@ import {
   CreateForwarderDTO,
   CreateFirmDTO,
 } from './user.dto';
-import { User, Customer, Forwarder, Administrator, Firm } from './user.entity';
+import {
+  User,
+  Customer,
+  Forwarder,
+  Administrator,
+  Firm,
+} from './entity/user.entity';
 
 @Injectable()
 export class UserService {
