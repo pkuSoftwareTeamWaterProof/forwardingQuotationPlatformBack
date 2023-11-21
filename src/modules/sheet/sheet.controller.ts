@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post,Delete, Put,Query} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Delete,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { CreateSheetDTO } from './dto/createSheet.dto';
 import { Sheet } from './entity/sheet.entity';
 import { SheetService } from './sheet.service';
@@ -16,8 +25,11 @@ export class SheetController {
   }
 
   @Put(':id')
-  async updateSheet(@Param('id') sheetid: string,@Body() createSheetDTO: CreateSheetDTO): Promise<void> {
-    await this.sheetservice.updateSheet(sheetid,createSheetDTO);
+  async updateSheet(
+    @Param('id') sheetid: string,
+    @Body() createSheetDTO: CreateSheetDTO,
+  ): Promise<void> {
+    await this.sheetservice.updateSheet(sheetid, createSheetDTO);
     return;
   }
 
@@ -31,10 +43,13 @@ export class SheetController {
   getAllSheet(): Promise<Sheet[]> {
     return this.sheetservice.findAll();
   }
-  
+
   @Get('select')
   selectSheet(@Query() queryParams: any): Promise<Sheet[]> {
-    return this.sheetservice.Select(queryParams.startpoint,queryParams.endpoint);
+    return this.sheetservice.Select(
+      queryParams.startpoint,
+      queryParams.endpoint,
+    );
   }
 
   @Get(':sheetId')

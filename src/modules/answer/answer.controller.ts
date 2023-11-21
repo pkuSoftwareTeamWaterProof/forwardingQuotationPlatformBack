@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post,Delete,Put} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Delete,
+  Put,
+} from '@nestjs/common';
 import { CreateAnswerDTO } from './dto/CreateAnswer.dto';
 import { Answer } from './entity/answer.entity';
 import { AnswerService } from './answer.service';
@@ -14,10 +22,13 @@ export class AnswerController {
     await this.answerservice.createAnswer(createAnswerDTO);
     return;
   }
-  
+
   @Put(':id')
-  async updateAnswer(@Param('id') answerid: string,@Body() createAnswerDTO: CreateAnswerDTO): Promise<void> {
-    await this.answerservice.updateAnswer(answerid,createAnswerDTO);
+  async updateAnswer(
+    @Param('id') answerid: string,
+    @Body() createAnswerDTO: CreateAnswerDTO,
+  ): Promise<void> {
+    await this.answerservice.updateAnswer(answerid, createAnswerDTO);
     return;
   }
 
