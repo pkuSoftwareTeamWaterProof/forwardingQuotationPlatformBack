@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateOrderDTO {
-
   @ApiProperty({
     description: '询价单id',
     example: 100,
@@ -19,5 +18,4 @@ export class CreateOrderDTO {
     example: '成交',
   })
   context: string;
- 
 }

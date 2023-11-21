@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateAnswerDTO {
-
   @ApiProperty({
     description: 'price',
     example: 100,
@@ -19,5 +18,4 @@ export class CreateAnswerDTO {
     example: '535',
   })
   Sheetid: string;
- 
 }

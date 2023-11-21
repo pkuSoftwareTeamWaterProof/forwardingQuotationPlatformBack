@@ -26,7 +26,7 @@ export class AnswerController {
   @Put(':id')
   async updateAnswer(
     @Param('id') answerid: string,
-    @Body() createAnswerDTO: CreateAnswerDTO,
+    @Body() createAnswerDTO: CreateAnswerDTO
   ): Promise<void> {
     await this.answerservice.updateAnswer(answerid, createAnswerDTO);
     return;

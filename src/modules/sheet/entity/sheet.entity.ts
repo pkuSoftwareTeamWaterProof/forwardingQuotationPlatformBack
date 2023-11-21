@@ -1,62 +1,61 @@
 import {
-    Entity,
-    Column,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn,
-    CreateDateColumn,
-    OneToMany,
-  } from 'typeorm';
-  
-  import { Answer } from '../../answer/entity/answer.entity';
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  CreateDateColumn,
+  OneToMany,
+} from 'typeorm';
 
-  @Entity()
-  export class Sheet {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+import { Answer } from '../../answer/entity/answer.entity';
 
-    @Column({default:true})
-    live: boolean;
+@Entity()
+export class Sheet {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column()
-    startpoint: string;
-  
-    @Column()
-    endpoint: string;
+  @Column({ default: true })
+  live: boolean;
 
-    @Column()
-    weight: number;
+  @Column()
+  startpoint: string;
 
-    @Column()
-    size: number;
+  @Column()
+  endpoint: string;
 
-    @Column()
-    species: string;
+  @Column()
+  weight: number;
 
-    @Column()
-    type_of_shipping: string;
+  @Column()
+  size: number;
 
-    @Column()
-    remark: string;
+  @Column()
+  species: string;
 
-    @Column()
-    startdate: string;
+  @Column()
+  type_of_shipping: string;
 
-    @Column()
-    enddate: string;
+  @Column()
+  remark: string;
 
-    @OneToMany(() => Answer, (answer) => answer.sheet)
-    answer: Answer[]
-  
-    @CreateDateColumn({
-      type: 'timestamp',
-      name: 'CreateDate',
-    })
-    createdAt: Date | undefined;
-  
-    @UpdateDateColumn({
-      type: 'timestamp',
-      name: 'UpdateDate',
-    })
-    updatedAt: Date | undefined;
-  }
-  
+  @Column()
+  startdate: string;
+
+  @Column()
+  enddate: string;
+
+  @OneToMany(() => Answer, (answer) => answer.sheet)
+  answer: Answer[];
+
+  @CreateDateColumn({
+    type: 'timestamp',
+    name: 'CreateDate',
+  })
+  createdAt: Date | undefined;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    name: 'UpdateDate',
+  })
+  updatedAt: Date | undefined;
+}
