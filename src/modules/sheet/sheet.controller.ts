@@ -27,7 +27,7 @@ export class SheetController {
   @Put(':id')
   async updateSheet(
     @Param('id') sheetid: string,
-    @Body() createSheetDTO: CreateSheetDTO,
+    @Body() createSheetDTO: CreateSheetDTO
   ): Promise<void> {
     await this.sheetservice.updateSheet(sheetid, createSheetDTO);
     return;
@@ -48,7 +48,7 @@ export class SheetController {
   selectSheet(@Query() queryParams: any): Promise<Sheet[]> {
     return this.sheetservice.Select(
       queryParams.startpoint,
-      queryParams.endpoint,
+      queryParams.endpoint
     );
   }
 

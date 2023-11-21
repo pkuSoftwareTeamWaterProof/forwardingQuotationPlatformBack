@@ -1,20 +1,20 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateFirmDTO{
+export class CreateFirmDTO {
   @ApiProperty({
     description: 'firmname',
-    example: 'PacKing Union'
+    example: 'PacKing Union',
   })
   name: string;
 
   @ApiProperty({
     description: 'description',
-    example: 'A company for freight forwarding.'
+    example: 'A company for freight forwarding.',
   })
-  description: string|null;
+  description: string | null;
 }
 
-export abstract class CreateUserDTO{
+export abstract class CreateUserDTO {
   @ApiProperty({
     description: 'username',
     example: 'laolee010126',
@@ -30,61 +30,61 @@ export abstract class CreateUserDTO{
 
   @ApiProperty({
     description: 'type',
-    example: 'administrator'
+    example: 'administrator',
   })
-  type: 'administrator'|'customer'|'forwarder';
+  type: 'administrator' | 'customer' | 'forwarder';
 }
 
 export class CreateAdministratorDTO extends CreateUserDTO {
   @ApiProperty({
     description: 'type',
-    example: 'administrator'
+    example: 'administrator',
   })
   type: 'administrator';
 }
 
-export class CreateCustomerDTO extends CreateUserDTO{
+export class CreateCustomerDTO extends CreateUserDTO {
   @ApiProperty({
     description: 'type',
-    example: 'customer'
+    example: 'customer',
   })
   type: 'customer';
 
   @ApiProperty({
     description: 'telephone',
-    example: '18501347653'
+    example: '18501347653',
   })
-  telephone: string | null
+  telephone: string | null;
 
   @ApiProperty({
     description: 'email',
-    example: 'test@myemail.com'
+    example: 'test@myemail.com',
   })
-  email: string | null
+  email: string | null;
 }
 
 export class CreateForwarderDTO extends CreateUserDTO {
   @ApiProperty({
     description: 'type',
-    example: 'forwarder'
+    example: 'forwarder',
   })
   type: 'forwarder';
 
   @ApiProperty({
     description: 'telephone',
-    example: '18501347653'
+    example: '18501347653',
   })
-  telephone: string | null
+  telephone: string | null;
 
   @ApiProperty({
     description: 'email',
-    example: 'test@myemail.com'
+    example: 'test@myemail.com',
   })
-  email: string | null
+  email: string | null;
 
   @ApiProperty({
     description: 'firm',
-    example: '1234567890'
+    example: '1234567890',
   })
-  firm: string
+  firm: string;
 }

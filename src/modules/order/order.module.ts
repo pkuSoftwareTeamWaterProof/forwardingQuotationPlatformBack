@@ -8,8 +8,12 @@ import { Sheet } from '../sheet/entity/sheet.entity';
 import { Answer } from '../answer/entity/answer.entity';
 import { AnswerService } from '../answer/answer.service';
 @Module({
-  imports: [TypeOrmModule.forFeature([Order]),TypeOrmModule.forFeature([Answer]),TypeOrmModule.forFeature([Sheet])],
+  imports: [
+    TypeOrmModule.forFeature([Order]),
+    TypeOrmModule.forFeature([Answer]),
+    TypeOrmModule.forFeature([Sheet]),
+  ],
   controllers: [OrderController],
-  providers: [OrderService,SheetService,AnswerService],
+  providers: [OrderService, SheetService, AnswerService],
 })
 export class OrderModule {}
