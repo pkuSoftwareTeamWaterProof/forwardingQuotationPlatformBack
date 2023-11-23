@@ -19,7 +19,7 @@ export class SheetService {
     const sheet = new Sheet();
     const user = await this.userService.getUserById(createSheetDTO.customerID);
     if(user == null || user.role != UserRole.CUSTOMER){
-      throw new InternalServerErrorException("Unknown Customer");
+      throw new BadRequestException("Unknown Customer");
     }
     sheet.startpoint = createSheetDTO.startpoint;
     sheet.endpoint = createSheetDTO.endpoint;

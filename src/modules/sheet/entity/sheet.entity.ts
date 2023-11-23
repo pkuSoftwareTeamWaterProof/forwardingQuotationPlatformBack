@@ -60,4 +60,7 @@ export class Sheet {
 
   @ManyToOne(type => Customer, customer => customer.sheets)
   customer: Customer;
+
+  @Column()
+  live:boolean
 }
