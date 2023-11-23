@@ -7,7 +7,7 @@ import {
   CreateForwarderDTO,
   CreateFirmDTO,
 } from './user.dto';
-import { User, Customer, Forwarder, Administrator, Firm } from './user.entity';
+import { User, Customer, Forwarder, Administrator, Firm, UserRole } from './user.entity';
 
 @Injectable()
 export class UserService {
@@ -83,17 +83,33 @@ export class UserService {
     this.forwarderRepository.insert(user);
   }
 
-  async getUserById(userId: string): Promise<User> {
-    const user = await this.customerRepository
-      .findOneByOrFail({ id: userId })
-      .catch((error) =>
-        this.forwarderRepository
+  async getUserById(userId: string, role?: UserRole ): Promise<User> {
+    switch(role){
+      case UserRole.CUSTOMER:{
+        const user = await this.customerRepository.findOneBy({id: userId});
+        return user;
+      }
+      case UserRole.FORWARDER:{
+        const user = await this.forwarderRepository.findOneBy({id: userId});
+        return user;
+      }
+      case UserRole.ADMINISTRATOR:{
+        const user = await this.administratorRepository.findOneBy({id: userId});
+        return user;
+      }
+      default:{
+        const user = await this.customerRepository
           .findOneByOrFail({ id: userId })
           .catch((error) =>
-            this.administratorRepository.findOneBy({ id: userId })
-          )
-      );
-    return user;
+            this.forwarderRepository
+              .findOneByOrFail({ id: userId })
+              .catch((error) =>
+                this.administratorRepository.findOneBy({ id: userId })
+              )
+          );
+        return user;
+      }
+    }
   }
 
   async getUserByName(userName: string): Promise<User> {

@@ -60,5 +60,12 @@ export class AnswerService {
       return null;
     }
   }
-  
+  async getAnswersByUser(userID: string): Promise<Array<Answer>> {
+    const user = (await this.userService.getUserById(userID, UserRole.FORWARDER) as Forwarder);
+    if(user == null){
+      throw new BadRequestException("Unknown User");
+    }
+    const sheets = (await this.answerRepository.find({relations:{forwarder:true},where: {forwarder:{id: userID}}}));;
+    return sheets;
+  }
 }

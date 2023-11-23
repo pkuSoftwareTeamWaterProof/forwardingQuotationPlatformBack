@@ -43,4 +43,10 @@ export class AnswerController {
     const answer = this.answerservice.getAnswerById(answerid);
     return answer;
   }
+
+  @Get('list/:forwarderID')
+  async getAnswersByUser(@Param('forwarderID') forwarderID: string): Promise<Array<Answer>> {
+    const answers = await this.answerservice.getAnswersByUser(forwarderID);
+    return answers;
+  }
 }
