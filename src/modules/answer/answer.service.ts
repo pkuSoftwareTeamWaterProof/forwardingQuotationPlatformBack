@@ -61,7 +61,7 @@ export class AnswerService {
     }
   }
   async getAnswersByUser(userID: string): Promise<Array<Answer>> {
-    const user = (await this.userService.getUserById(userID, UserRole.CUSTOMER) as Forwarder);
+    const user = (await this.userService.getUserById(userID, UserRole.FORWARDER) as Forwarder);
     if(user == null){
       throw new BadRequestException("Unknown User");
     }
