@@ -1,8 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Admin, Repository } from 'typeorm';
-import { CreateCustomerDTO, CreateAdministratorDTO, CreateForwarderDTO, CreateFirmDTO } from './user.dto';
-import { User, Customer, Forwarder, Administrator, Firm } from './user.entity';
+import {
+  CreateCustomerDTO,
+  CreateAdministratorDTO,
+  CreateForwarderDTO,
+  CreateFirmDTO,
+} from './user.dto';
+import {
+  User,
+  Customer,
+  Forwarder,
+  Administrator,
+  Firm,
+} from './entity/user.entity';
 
 @Injectable()
 export class UserService {
@@ -14,34 +25,34 @@ export class UserService {
     @InjectRepository(Forwarder)
     private readonly forwarderRepository: Repository<Forwarder>,
     @InjectRepository(Administrator)
-    private readonly administratorRepository: Repository<Administrator>,
+    private readonly administratorRepository: Repository<Administrator>
   ) {}
 
-  async createFirm(createFirmDTO:CreateFirmDTO){
-    if(await this.getFirmByName(createFirmDTO.name)!=null){
-      console.warn("A duplicate firm name: ", createFirmDTO.name);
+  async createFirm(createFirmDTO: CreateFirmDTO) {
+    if ((await this.getFirmByName(createFirmDTO.name)) != null) {
+      console.warn('A duplicate firm name: ', createFirmDTO.name);
       return;
     }
     const firm = new Firm();
-    firm.name=createFirmDTO.name;
-    firm.description=createFirmDTO.description;
-    firm.employees=[]
+    firm.name = createFirmDTO.name;
+    firm.description = createFirmDTO.description;
+    firm.employees = [];
     this.firmRepository.insert(firm);
   }
 
   async getFrimById(firmId: string): Promise<Firm> {
-    const firm = await this.firmRepository.findOneBy({id: firmId});
+    const firm = await this.firmRepository.findOneBy({ id: firmId });
     return firm;
   }
 
   async getFirmByName(firmName: string): Promise<Firm> {
-    const firm = await this.firmRepository.findOneBy({name:firmName});
+    const firm = await this.firmRepository.findOneBy({ name: firmName });
     return firm;
   }
 
-  async createAdministrator(createAdministratorDTO: CreateAdministratorDTO){
-    if(await this.getUserByName(createAdministratorDTO.username)!=null){
-      console.warn("A duplicate user name: ", createAdministratorDTO.username);
+  async createAdministrator(createAdministratorDTO: CreateAdministratorDTO) {
+    if ((await this.getUserByName(createAdministratorDTO.username)) != null) {
+      console.warn('A duplicate user name: ', createAdministratorDTO.username);
       return;
     }
     const user = new Administrator();
@@ -51,8 +62,8 @@ export class UserService {
   }
 
   async createCustomer(createCustomerDTO: CreateCustomerDTO) {
-    if(await this.getUserByName(createCustomerDTO.username)!=null){
-      console.warn("A duplicate user name: ", createCustomerDTO.username);
+    if ((await this.getUserByName(createCustomerDTO.username)) != null) {
+      console.warn('A duplicate user name: ', createCustomerDTO.username);
       return;
     }
     const user = new Customer();
@@ -63,9 +74,9 @@ export class UserService {
     this.customerRepository.insert(user);
   }
 
-  async createForwarder(createForwarderDTO: CreateForwarderDTO){
-    if(await this.getUserByName(createForwarderDTO.username)!=null){
-      console.warn("A duplicate user name: ", createForwarderDTO.username);
+  async createForwarder(createForwarderDTO: CreateForwarderDTO) {
+    if ((await this.getUserByName(createForwarderDTO.username)) != null) {
+      console.warn('A duplicate user name: ', createForwarderDTO.username);
       return;
     }
     const user = new Forwarder();
@@ -73,34 +84,32 @@ export class UserService {
     user.password = createForwarderDTO.password;
     user.telephone = createForwarderDTO.telephone;
     user.email = createForwarderDTO.email;
-    const firm : Firm = await this.getFrimById(createForwarderDTO.firm);
+    const firm: Firm = await this.getFrimById(createForwarderDTO.firm);
     user.firm = firm;
     this.forwarderRepository.insert(user);
   }
 
   async getUserById(userId: string): Promise<User> {
-    const user=await this.customerRepository
+    const user = await this.customerRepository
       .findOneByOrFail({ id: userId })
-      .catch(
-        (error) => this.forwarderRepository
-          .findOneByOrFail({id: userId})
-          .catch(
-            (error) => this.administratorRepository
-              .findOneBy({id: userId})
+      .catch((error) =>
+        this.forwarderRepository
+          .findOneByOrFail({ id: userId })
+          .catch((error) =>
+            this.administratorRepository.findOneBy({ id: userId })
           )
       );
     return user;
   }
 
   async getUserByName(userName: string): Promise<User> {
-    const user=await this.customerRepository
+    const user = await this.customerRepository
       .findOneByOrFail({ username: userName })
-      .catch(
-        (error) => this.forwarderRepository
-          .findOneByOrFail({username: userName})
-          .catch(
-            (error) => this.administratorRepository
-              .findOneBy({username: userName})
+      .catch((error) =>
+        this.forwarderRepository
+          .findOneByOrFail({ username: userName })
+          .catch((error) =>
+            this.administratorRepository.findOneBy({ username: userName })
           )
       );
     return user;

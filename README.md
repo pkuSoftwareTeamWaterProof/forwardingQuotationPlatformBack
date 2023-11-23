@@ -20,7 +20,7 @@ SHOW DATABASES;
 
 如果能看到刚刚添加的数据库名，数据库即部署完成。
 
-## 基本 script
+## 如何运行后端？
 
 运行 nest 开发者模式
 
@@ -29,7 +29,10 @@ npm run start:dev
 ```
 
 正常运行之后可以试用一下地址
-API 请求地址： `localhost:3001`
-API 文档：`localhost:3001/api`
+**API 请求地址： `localhost:3001`**
+**API 文档：`localhost:3001/api`**
+参考文档，可以查询 API request body, header 还有 API response
+也可以在文档试试request
+
 
 ---

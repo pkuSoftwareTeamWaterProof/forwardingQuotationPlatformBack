@@ -6,7 +6,7 @@ import {
   Customer,
   Forwarder,
   Administrator,
-} from './modules/user/user.entity';
+} from './modules/user/entity/user.entity';
 import { Sheet } from './modules/sheet/entity/sheet.entity';
 import { UserModule } from './modules/user/user.module';
 import { SheetModule } from './modules/sheet/sheet.module';
