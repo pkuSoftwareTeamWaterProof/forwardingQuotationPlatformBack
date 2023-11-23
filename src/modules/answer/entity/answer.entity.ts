@@ -17,6 +17,9 @@ export class Answer {
   @Column()
   price: number;
 
+  @Column()
+  remark: string;
+
   @ManyToOne(() => Sheet, (sheet) => sheet.answer)
   sheet: Sheet;
 
