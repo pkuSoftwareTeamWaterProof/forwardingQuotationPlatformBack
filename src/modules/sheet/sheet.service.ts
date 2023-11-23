@@ -84,7 +84,7 @@ export class SheetService {
     }
   }
 
-  async getSheetByUser(userID: string): Promise<Array<Sheet>> {
+  async getSheetsByUser(userID: string): Promise<Array<Sheet>> {
     const user = (await this.userService.getUserById(userID, UserRole.CUSTOMER) as Customer);
     if(user == null){
       throw new BadRequestException("Unknown User");
