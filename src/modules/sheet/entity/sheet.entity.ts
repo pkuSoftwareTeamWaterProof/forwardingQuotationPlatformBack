@@ -11,54 +11,53 @@ import {
 import { Answer } from '../../answer/entity/answer.entity';
 import { Customer } from '../../user/user.entity'
 
-  @Entity()
-  export class Sheet {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+@Entity()
+export class Sheet {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
   
-    @Column()
-    startpoint: string;
+  @Column()
+  startpoint: string;
   
-    @Column()
-    endpoint: string;
+  @Column()
+  endpoint: string;
 
-    @Column()
-    weight: number;
+  @Column()
+  weight: number;
 
-    @Column()
-    size: number;
+  @Column()
+  size: number;
 
-    @Column()
-    species: string;
+  @Column()
+  species: string;
 
-    @Column()
-    type_of_shipping: string;
+  @Column()
+  type_of_shipping: string;
 
-    @Column()
-    remark: string;
+  @Column()
+  remark: string;
 
-    @Column()
-    startdate: string;
+  @Column()
+  startdate: string;
 
-    @Column()
-    enddate: string;
+  @Column()
+  enddate: string;
 
-    @OneToMany(() => Answer, (answer) => answer.sheet)
-    answer: Answer[]
+  @OneToMany(() => Answer, (answer) => answer.sheet)
+  answer: Answer[]
   
-    @CreateDateColumn({
-      type: 'timestamp',
-      name: 'CreateDate',
-    })
-    createdAt: Date | undefined;
+  @CreateDateColumn({
+    type: 'timestamp',
+    name: 'CreateDate',
+  })
+  createdAt: Date | undefined;
   
-    @UpdateDateColumn({
-      type: 'timestamp',
-      name: 'UpdateDate',
-    })
-    updatedAt: Date | undefined;
+  @UpdateDateColumn({
+    type: 'timestamp',
+    name: 'UpdateDate',
+  })
+  updatedAt: Date | undefined;
 
-    @ManyToOne(type => Customer, customer => customer.sheets)
-    customer: Customer;
-  }
-  
+  @ManyToOne(type => Customer, customer => customer.sheets)
+  customer: Customer;
+}

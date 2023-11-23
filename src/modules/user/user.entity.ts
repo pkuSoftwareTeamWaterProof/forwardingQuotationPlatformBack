@@ -5,14 +5,14 @@ import {
   UpdateDateColumn,
   CreateDateColumn,
   ManyToOne,
-  OneToMany
+  OneToMany,
 } from 'typeorm';
 
 import { Sheet } from "../sheet/entity/sheet.entity"
 import { Answer } from '../answer/entity/answer.entity';
 
 @Entity()
-export class Firm{
+export class Firm {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -20,7 +20,7 @@ export class Firm{
   name: string;
 
   @Column()
-  description:string|null;
+  description: string | null;
 
   @CreateDateColumn({
     type: 'timestamp',
@@ -34,14 +34,14 @@ export class Firm{
   })
   updatedAt: Date | undefined;
 
-  @OneToMany(type => Forwarder, forwarder => forwarder.firm)
+  @OneToMany((type) => Forwarder, (forwarder) => forwarder.firm)
   employees: Forwarder[];
 }
 
-export enum UserRole{
-  CUSTOMER = "customer",
-  FORWARDER = "forwarder",
-  ADMINISTRATOR = "administrator"
+export enum UserRole {
+  CUSTOMER = 'customer',
+  FORWARDER = 'forwarder',
+  ADMINISTRATOR = 'administrator',
 }
 
 export abstract class User {
@@ -71,7 +71,6 @@ export abstract class User {
 
 @Entity()
 export class Customer extends User {
-
   @Column({nullable:true})
   telephone: string
 
@@ -86,10 +85,10 @@ export class Customer extends User {
 
 @Entity()
 export class Forwarder extends User {
-  @Column({nullable:true})
+  @Column({ nullable: true })
   telephone: string;
 
-  @Column({nullable:true})
+  @Column({ nullable: true })
   email: string;
 
   @ManyToOne(type=>Firm, firm=>firm.employees)

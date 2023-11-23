@@ -1,4 +1,12 @@
 {
+  "tabWidth": 2,
+  "useTabs": false,
   "singleQuote": true,
-  "trailingComma": "all"
+  "trailingComma": "es5",
+  "semi": true,
+  "quoteProps": "as-needed",
+  "printWidth": 80,
+  "embeddedLanguageFormatting": "auto",
+  "endOfLine": "lf",
+  "htmlWhitespaceSensitivity": "css"
 }
