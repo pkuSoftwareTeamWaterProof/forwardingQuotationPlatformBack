@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 
 import { Sheet } from '../../sheet/entity/sheet.entity';
+import { Forwarder } from 'src/modules/user/user.entity';
 @Entity()
 export class Answer {
   @PrimaryGeneratedColumn('uuid')
@@ -15,9 +16,6 @@ export class Answer {
 
   @Column()
   price: number;
-
-  @Column()
-  remark: string;
 
   @ManyToOne(() => Sheet, (sheet) => sheet.answer)
   sheet: Sheet;
@@ -33,4 +31,7 @@ export class Answer {
     name: 'UpdateDate',
   })
   updatedAt: Date | undefined;
+
+  @ManyToOne((type) => Forwarder, (forwarder) => forwarder.answers)
+  forwarder: Forwarder;
 }

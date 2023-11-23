@@ -5,9 +5,11 @@ import {
   UpdateDateColumn,
   CreateDateColumn,
   OneToMany,
+  ManyToOne,
 } from 'typeorm';
 
 import { Answer } from '../../answer/entity/answer.entity';
+import { Customer } from '../../user/user.entity';
 
 @Entity()
 export class Sheet {
@@ -55,4 +57,10 @@ export class Sheet {
     name: 'UpdateDate',
   })
   updatedAt: Date | undefined;
+
+  @ManyToOne((type) => Customer, (customer) => customer.sheets)
+  customer: Customer;
+
+  @Column()
+  live: boolean;
 }
