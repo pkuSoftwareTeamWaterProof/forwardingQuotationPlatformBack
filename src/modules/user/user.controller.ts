@@ -74,4 +74,10 @@ export class FirmController {
     const firm = await this.userService.getFirmByName(firmName);
     return firm;
   }
+
+  @Get('list')
+  async getAllFirms(): Promise<Array<Firm>> {
+    const firms = await this.userService.getAllFirms();
+    return firms;
+  }
 }

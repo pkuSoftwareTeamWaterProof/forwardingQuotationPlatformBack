@@ -124,4 +124,9 @@ export class UserService {
       );
     return user;
   }
+
+  async getAllFirms(): Promise<Array<Firm>> {
+    const firms = await this.firmRepository.find();
+    return firms;
+  }
 }
