@@ -14,6 +14,9 @@ import {
     @PrimaryGeneratedColumn('uuid')
     id: string;
   
+    @Column({default:true})
+    live: boolean;
+    
     @Column()
     price: number;
 
