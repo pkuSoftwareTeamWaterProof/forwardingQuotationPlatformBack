@@ -83,4 +83,13 @@ export class SheetService {
       return null;
     }
   }
+
+  async getSheetByUser(userID: string): Promise<Array<Sheet>> {
+    const user = (await this.userService.getUserById(userID, UserRole.CUSTOMER) as Customer);
+    if(user == null){
+      throw new BadRequestException("Unknown User");
+    }
+    const sheets = user.sheets;
+    return sheets;
+  }
 }
