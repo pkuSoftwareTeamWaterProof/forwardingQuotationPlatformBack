@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateSheetDTO } from './dto/createSheet.dto';
 import { Sheet } from './entity/sheet.entity';
 import { Answer } from '../answer/entity/answer.entity';
-import { UserRole, Customer } from '../user/user.entity';
+import { UserRole, Customer } from '../user/entity/user.entity';
 import { UserService } from '../user/user.service';
 
 @Injectable()
@@ -18,8 +18,8 @@ export class SheetService {
   async createSheet(createSheetDTO: CreateSheetDTO) {
     const sheet = new Sheet();
     const user = await this.userService.getUserById(createSheetDTO.customerID);
-    if(user == null || user.role != UserRole.CUSTOMER){
-      throw new BadRequestException("Unknown Customer");
+    if (user == null || user.role != UserRole.CUSTOMER) {
+      throw new BadRequestException('Unknown Customer');
     }
     sheet.startpoint = createSheetDTO.startpoint;
     sheet.endpoint = createSheetDTO.endpoint;
@@ -30,8 +30,8 @@ export class SheetService {
     sheet.remark = createSheetDTO.remark;
     sheet.startdate = createSheetDTO.startdate;
     sheet.enddate = createSheetDTO.enddate;
-    sheet.customer = (user as Customer);
-    await this.sheetRepository.manager.save(sheet)
+    sheet.customer = user as Customer;
+    await this.sheetRepository.manager.save(sheet);
   }
 
   async updateSheet(Sheetid: string, createSheetDTO: CreateSheetDTO) {
@@ -85,11 +85,17 @@ export class SheetService {
   }
 
   async getSheetsByUser(userID: string): Promise<Array<Sheet>> {
-    const user = (await this.userService.getUserById(userID, UserRole.CUSTOMER) as Customer);
-    if(user == null){
-      throw new BadRequestException("Unknown User");
+    const user = (await this.userService.getUserById(
+      userID,
+      UserRole.CUSTOMER
+    )) as Customer;
+    if (user == null) {
+      throw new BadRequestException('Unknown User');
     }
-    const sheets = (await this.sheetRepository.find({relations:{customer:true},where: {customer:{id: userID}}}));
+    const sheets = await this.sheetRepository.find({
+      relations: { customer: true },
+      where: { customer: { id: userID } },
+    });
     return sheets;
   }
 }
