@@ -21,7 +21,7 @@ export class AnswerService {
     const answer = new Answer();
     const user = await this.userService.getUserById(createAnswerDTO.forwarderID);
     if(user == null || user.role!=UserRole.FORWARDER){
-      throw new InternalServerErrorException("Unknown Forwarder");
+      throw new BadRequestException("Unknown Forwarder");
     }
     answer.price = createAnswerDTO.price;
     answer.remark = createAnswerDTO.remark;
