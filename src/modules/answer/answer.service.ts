@@ -65,7 +65,7 @@ export class AnswerService {
     if(user == null){
       throw new BadRequestException("Unknown User");
     }
-    const sheets = user.answers;
+    const sheets = (await this.answerRepository.find({relations:{forwarder:true},where: {forwarder:{id: userID}}}));;
     return sheets;
   }
 }

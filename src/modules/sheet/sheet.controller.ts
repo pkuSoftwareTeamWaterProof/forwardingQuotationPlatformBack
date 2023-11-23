@@ -59,7 +59,7 @@ export class SheetController {
   }
 
   @Get('list/:customerID')
-  async getSheetsByUser(@Param() customerID: string): Promise<Array<Sheet>> {
+  async getSheetsByUser(@Param("customerID") customerID:string): Promise<Array<Sheet>> {
     const sheets = this.sheetservice.getSheetsByUser(customerID);
     return sheets;
   }

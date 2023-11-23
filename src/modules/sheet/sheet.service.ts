@@ -89,7 +89,7 @@ export class SheetService {
     if(user == null){
       throw new BadRequestException("Unknown User");
     }
-    const sheets = user.sheets;
+    const sheets = (await this.sheetRepository.find({relations:{customer:true},where: {customer:{id: userID}}}));
     return sheets;
   }
 }
