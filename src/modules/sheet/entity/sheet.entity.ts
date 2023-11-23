@@ -1,24 +1,24 @@
 import {
-    Entity,
-    Column,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn,
-    CreateDateColumn,
-    OneToMany,
-    ManyToOne
-  } from 'typeorm';
-  
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  CreateDateColumn,
+  OneToMany,
+  ManyToOne,
+} from 'typeorm';
+
 import { Answer } from '../../answer/entity/answer.entity';
-import { Customer } from '../../user/user.entity'
+import { Customer } from '../../user/entity/user.entity';
 
 @Entity()
 export class Sheet {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-  
+
   @Column()
   startpoint: string;
-  
+
   @Column()
   endpoint: string;
 
@@ -44,23 +44,23 @@ export class Sheet {
   enddate: string;
 
   @OneToMany(() => Answer, (answer) => answer.sheet)
-  answer: Answer[]
-  
+  answer: Answer[];
+
   @CreateDateColumn({
     type: 'timestamp',
     name: 'CreateDate',
   })
   createdAt: Date | undefined;
-  
+
   @UpdateDateColumn({
     type: 'timestamp',
     name: 'UpdateDate',
   })
   updatedAt: Date | undefined;
 
-  @ManyToOne(type => Customer, customer => customer.sheets)
+  @ManyToOne((type) => Customer, (customer) => customer.sheets)
   customer: Customer;
 
   @Column()
-  live:boolean
+  live: boolean;
 }

@@ -6,8 +6,15 @@ import {
   CreateAdministratorDTO,
   CreateForwarderDTO,
   CreateFirmDTO,
-} from './user.dto';
-import { User, Customer, Forwarder, Administrator, Firm, UserRole } from './user.entity';
+} from './dto/user.dto';
+import {
+  User,
+  Customer,
+  Forwarder,
+  Administrator,
+  Firm,
+  UserRole,
+} from './entity/user.entity';
 
 @Injectable()
 export class UserService {
@@ -83,21 +90,23 @@ export class UserService {
     this.forwarderRepository.insert(user);
   }
 
-  async getUserById(userId: string, role?: UserRole ): Promise<User> {
-    switch(role){
-      case UserRole.CUSTOMER:{
-        const user = await this.customerRepository.findOneBy({id: userId});
+  async getUserById(userId: string, role?: UserRole): Promise<User> {
+    switch (role) {
+      case UserRole.CUSTOMER: {
+        const user = await this.customerRepository.findOneBy({ id: userId });
         return user;
       }
-      case UserRole.FORWARDER:{
-        const user = await this.forwarderRepository.findOneBy({id: userId});
+      case UserRole.FORWARDER: {
+        const user = await this.forwarderRepository.findOneBy({ id: userId });
         return user;
       }
-      case UserRole.ADMINISTRATOR:{
-        const user = await this.administratorRepository.findOneBy({id: userId});
+      case UserRole.ADMINISTRATOR: {
+        const user = await this.administratorRepository.findOneBy({
+          id: userId,
+        });
         return user;
       }
-      default:{
+      default: {
         const user = await this.customerRepository
           .findOneByOrFail({ id: userId })
           .catch((error) =>
@@ -123,5 +132,10 @@ export class UserService {
           )
       );
     return user;
+  }
+
+  async getAllFirms(): Promise<Array<Firm>> {
+    const firms = await this.firmRepository.find();
+    return firms;
   }
 }
