@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 import { Sheet } from '../../sheet/entity/sheet.entity';
-import { Forwarder } from 'src/modules/user/user.entity';
+import { Forwarder } from 'src/modules/user/entity/user.entity';
 @Entity()
 export class Answer {
   @PrimaryGeneratedColumn('uuid')

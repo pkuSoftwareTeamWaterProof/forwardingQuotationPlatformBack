@@ -5,7 +5,7 @@ import { CreateAnswerDTO } from './dto/CreateAnswer.dto';
 import { Answer } from './entity/answer.entity';
 import { SheetService } from '../sheet/sheet.service';
 import { UserService } from '../user/user.service';
-import { UserRole, Forwarder } from '../user/user.entity';
+import { UserRole, Forwarder } from '../user/entity/user.entity';
 
 @Injectable()
 export class AnswerService {
@@ -45,8 +45,24 @@ export class AnswerService {
   async deleteAnswer(Answerid: string) {
     await this.answerRepository.softDelete({ id: Answerid });
   }
+
   async getAnswerById(Answerid: string): Promise<Answer> {
     const answer = await this.answerRepository.findOneBy({ id: Answerid });
+
     return answer;
+  }
+  async getAnswersByUser(userID: string): Promise<Array<Answer>> {
+    const user = (await this.userService.getUserById(
+      userID,
+      UserRole.FORWARDER
+    )) as Forwarder;
+    if (user == null) {
+      throw new BadRequestException('Unknown User');
+    }
+    const sheets = await this.answerRepository.find({
+      relations: { forwarder: true },
+      where: { forwarder: { id: userID } },
+    });
+    return sheets;
   }
 }

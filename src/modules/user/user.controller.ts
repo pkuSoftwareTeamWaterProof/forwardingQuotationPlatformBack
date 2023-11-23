@@ -5,8 +5,8 @@ import {
   CreateAdministratorDTO,
   CreateUserDTO,
   CreateFirmDTO,
-} from './user.dto';
-import { User, Firm } from './user.entity';
+} from './dto/user.dto';
+import { User, Firm } from './entity/user.entity';
 import { UserService } from './user.service';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -73,5 +73,11 @@ export class FirmController {
   async getFirmByName(@Param('firmName') firmName: string): Promise<Firm> {
     const firm = await this.userService.getFirmByName(firmName);
     return firm;
+  }
+
+  @Get('list')
+  async getAllFirms(): Promise<Array<Firm>> {
+    const firms = await this.userService.getAllFirms();
+    return firms;
   }
 }
