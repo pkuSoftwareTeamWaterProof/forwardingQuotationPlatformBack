@@ -58,6 +58,6 @@ export class Sheet {
   })
   updatedAt: Date | undefined;
 
-  // @ManyToOne((type) => Customer, (customer) => customer.sheets)
-  // customer: Customer;
+  @ManyToOne((type) => User, (user) => user.sheets)
+  customer: User;
 }
