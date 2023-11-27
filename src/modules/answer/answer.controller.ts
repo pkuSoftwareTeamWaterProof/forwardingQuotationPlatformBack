@@ -26,7 +26,7 @@ export class AnswerController {
   @Put(':id')
   async updateAnswer(
     @Param('id') answerid: string,
-    @Body() createAnswerDTO: CreateAnswerDTO,
+    @Body() createAnswerDTO: CreateAnswerDTO
   ): Promise<void> {
     await this.answerservice.updateAnswer(answerid, createAnswerDTO);
     return;
@@ -39,13 +39,20 @@ export class AnswerController {
   }
 
   @Get(':answerID')
-  getAnswerById(@Param() answerid: string): Promise<Answer> {
-    const answer = this.answerservice.getAnswerById(answerid);
+  getAnswerByAnswerId(@Param() answerid: string): Promise<Answer> {
+    const answer = this.answerservice.getAnswerByAnswerId(answerid);
     return answer;
   }
 
+  @Get(':sheetID')
+  getAnswerBySheetId(@Param() sheetid: string): Promise<Array<Answer>> {
+    return this.answerservice.getAnswerBySheetId(sheetid);
+  }
+
   @Get('list/:forwarderID')
-  async getAnswersByUser(@Param('forwarderID') forwarderID: string): Promise<Array<Answer>> {
+  async getAnswersByUser(
+    @Param('forwarderID') forwarderID: string
+  ): Promise<Array<Answer>> {
     const answers = await this.answerservice.getAnswersByUser(forwarderID);
     return answers;
   }

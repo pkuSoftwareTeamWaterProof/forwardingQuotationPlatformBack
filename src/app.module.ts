@@ -23,14 +23,14 @@ import { AuthModule } from './modules/auth/auth.module';
     // 按照个人 mysql 设置
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.DB_HOST,
-      port: parseInt(process.env.DB_PORT),
+      host: 'localhost',
+      port: 3306,
       // 需要写自己的
-      username: process.env.DB_USERNAME,
+      username: 'root',
       // 需要写自己的
-      password: process.env.DB_PASSWORD,
+      password: '14735826270',
       // 需要创建一个 ‘forwardingQuotationPlatform’ schema
-      database: process.env.DB_NAME,
+      database: 'softwork',
       // 创建的 entity 需要 import 到这里
       entities: [Firm, Customer, Forwarder, Administrator, Sheet, Answer],
       synchronize: true,

@@ -46,11 +46,16 @@ export class AnswerService {
     await this.answerRepository.softDelete({ id: Answerid });
   }
 
-  async getAnswerById(Answerid: string): Promise<Answer> {
+  async getAnswerByAnswerId(Answerid: string): Promise<Answer> {
     const answer = await this.answerRepository.findOneBy({ id: Answerid });
-
     return answer;
   }
+
+  async getAnswerBySheetId(sheetid: string): Promise<Array<Answer>> {
+    const sheet = await this.findsheet.getSheetById(sheetid);
+    return sheet.answer;
+  }
+
   async getAnswersByUser(userID: string): Promise<Array<Answer>> {
     const user = (await this.userService.getUserById(
       userID,

@@ -36,4 +36,6 @@ lerna-debug.log*
 
 # project
 .env
-test-scripts/
+
+
+src/app.modules.ts
