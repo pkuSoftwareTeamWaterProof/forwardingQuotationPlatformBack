@@ -40,12 +40,12 @@ export class SheetController {
   }
 
   @Get()
-  getAllSheet(): Promise<Sheet[]> {
-    return this.sheetservice.findAll();
+  async getAllSheet(): Promise<Sheet[]> {
+    return await this.sheetservice.findAll();
   }
 
   @Get('select')
-  selectSheet(@Query() queryParams: any): Promise<Sheet[]> {
+  async selectSheet(@Query() queryParams: any): Promise<Sheet[]> {
     return this.sheetservice.Select(
       queryParams.startpoint,
       queryParams.endpoint
@@ -53,7 +53,7 @@ export class SheetController {
   }
 
   @Get(':sheetId')
-  getSheetById(@Param() sheetid: string): Promise<Sheet> {
+  async getSheetById(@Param("sheetId") sheetid: string): Promise<Sheet> {
     const sheet = this.sheetservice.getSheetById(sheetid);
     return sheet;
   }

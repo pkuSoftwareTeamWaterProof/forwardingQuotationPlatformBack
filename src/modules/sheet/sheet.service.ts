@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateSheetDTO } from './dto/createSheet.dto';
 import { Sheet } from './entity/sheet.entity';
 import { Answer } from '../answer/entity/answer.entity';
-import { UserRole, Customer } from '../user/entity/user.entity';
+import { UserRole } from '../user/entity/user.entity';
 import { UserService } from '../user/user.service';
 
 @Injectable()
@@ -17,7 +17,9 @@ export class SheetService {
 
   async createSheet(createSheetDTO: CreateSheetDTO) {
     const sheet = new Sheet();
-    const user = await this.userService.getUserById(createSheetDTO.customerID);
+    //TODO: bug fix
+    // const user = await this.userService.getUserById(createSheetDTO.customerID);
+    const user = null;
     if (user == null || user.role != UserRole.CUSTOMER) {
       throw new BadRequestException('Unknown Customer');
     }
@@ -30,7 +32,7 @@ export class SheetService {
     sheet.remark = createSheetDTO.remark;
     sheet.startdate = createSheetDTO.startdate;
     sheet.enddate = createSheetDTO.enddate;
-    sheet.customer = user as Customer;
+    // sheet.customer = user as Customer;
     await this.sheetRepository.manager.save(sheet);
   }
 
@@ -75,17 +77,18 @@ export class SheetService {
   }
 
   async getSheetsByUser(userID: string): Promise<Array<Sheet>> {
-    const user = (await this.userService.getUserById(
-      userID,
-      UserRole.CUSTOMER
-    )) as Customer;
-    if (user == null) {
-      throw new BadRequestException('Unknown User');
-    }
-    const sheets = await this.sheetRepository.find({
-      relations: { customer: true },
-      where: { customer: { id: userID } },
-    });
-    return sheets;
+    // const user = (await this.userService.getUserById(
+    //   userID,
+    //   UserRole.CUSTOMER
+    // )) as Customer;
+    // if (user == null) {
+    //   throw new BadRequestException('Unknown User');
+    // }
+    // const sheets = await this.sheetRepository.find({
+    //   relations: { customer: true },
+    //   where: { customer: { id: userID } },
+    // });
+    // return sheets;
+    return;
   }
 }
