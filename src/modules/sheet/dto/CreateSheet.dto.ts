@@ -57,7 +57,7 @@ export class CreateSheetDTO {
   enddate: string;
 
   @ApiProperty({
-    description: 'Customer的UUID'
+    description: 'Customer的UUID',
   })
   customerID: string;
 }

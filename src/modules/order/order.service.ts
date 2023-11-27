@@ -19,7 +19,9 @@ export class OrderService {
     order.context = createOrderDTO.context;
     const sheet = await this.findsheet.getSheetById(createOrderDTO.sheetid);
     await this.findsheet.deleteSheet(createOrderDTO.sheetid);
-    const answer = await this.findanswer.getAnswerById(createOrderDTO.answerid);
+    const answer = await this.findanswer.getAnswerByAnswerId(
+      createOrderDTO.answerid
+    );
     await this.findanswer.deleteAnswer(createOrderDTO.answerid);
     order.sheet = sheet;
     order.answer = answer;
