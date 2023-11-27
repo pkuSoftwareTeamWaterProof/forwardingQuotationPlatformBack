@@ -10,33 +10,7 @@ import {
 
 import { Sheet } from '../../sheet/entity/sheet.entity';
 import { Answer } from '../../answer/entity/answer.entity';
-
-@Entity()
-export class Firm {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  @Column({ unique: true })
-  name: string;
-
-  @Column()
-  description: string | null;
-
-  @CreateDateColumn({
-    type: 'timestamp',
-    name: 'created_at',
-  })
-  createdAt: Date | undefined;
-
-  @UpdateDateColumn({
-    type: 'timestamp',
-    name: 'updated_at',
-  })
-  updatedAt: Date | undefined;
-
-  @OneToMany((type) => Forwarder, (forwarder) => forwarder.firm)
-  employees: Forwarder[];
-}
+import { Firm } from './firm.entity';
 
 export enum UserRole {
   CUSTOMER = 'customer',
@@ -44,7 +18,8 @@ export enum UserRole {
   ADMINISTRATOR = 'administrator',
 }
 
-export abstract class User {
+@Entity()
+export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -54,37 +29,9 @@ export abstract class User {
   @Column()
   password: string;
 
-  @CreateDateColumn({
-    type: 'timestamp',
-    name: 'created_at',
-  })
-  createdAt: Date | undefined;
-
-  @UpdateDateColumn({
-    type: 'timestamp',
-    name: 'updated_at',
-  })
-  updatedAt: Date | undefined;
-
+  @Column({ type: 'enum', enum: UserRole })
   role: UserRole;
-}
 
-@Entity()
-export class Customer extends User {
-  @Column({ nullable: true })
-  telephone: string;
-
-  @Column({ nullable: true })
-  email: string;
-
-  @OneToMany((type) => Sheet, (sheet) => sheet.customer)
-  sheets: Sheet[];
-
-  role = UserRole.CUSTOMER;
-}
-
-@Entity()
-export class Forwarder extends User {
   @Column({ nullable: true })
   telephone: string;
 
@@ -97,10 +44,18 @@ export class Forwarder extends User {
   @OneToMany((type) => Answer, (answer) => answer.forwarder)
   answers: Answer[];
 
-  role = UserRole.FORWARDER;
-}
+  @OneToMany((type) => Sheet, (sheet) => sheet.customer)
+  sheets: Sheet[];
 
-@Entity()
-export class Administrator extends User {
-  role = UserRole.ADMINISTRATOR;
+  @CreateDateColumn({
+    type: 'timestamp',
+    name: 'created_at',
+  })
+  createdAt: Date | undefined;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    name: 'updated_at',
+  })
+  updatedAt: Date | undefined;
 }

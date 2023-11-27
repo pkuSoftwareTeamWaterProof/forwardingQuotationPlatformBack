@@ -5,7 +5,7 @@ import { CreateAnswerDTO } from './dto/CreateAnswer.dto';
 import { Answer } from './entity/answer.entity';
 import { SheetService } from '../sheet/sheet.service';
 import { UserService } from '../user/user.service';
-import { UserRole, Forwarder } from '../user/entity/user.entity';
+import { UserRole } from '../user/entity/user.entity';
 
 @Injectable()
 export class AnswerService {
@@ -19,9 +19,11 @@ export class AnswerService {
 
   async createAnswer(createAnswerDTO: CreateAnswerDTO) {
     const answer = new Answer();
-    const user = await this.userService.getUserById(
-      createAnswerDTO.forwarderID
-    );
+    //TODO: bug fix
+    // const user = await this.userService.getUserById(
+    //   createAnswerDTO.forwarderID
+    // );
+    const user = null;
     if (user == null || user.role != UserRole.FORWARDER) {
       throw new BadRequestException('Unknown Forwarder');
     }
@@ -29,7 +31,7 @@ export class AnswerService {
     answer.remark = createAnswerDTO.remark;
     const sheet = await this.findsheet.getSheetById(createAnswerDTO.Sheetid);
     answer.sheet = sheet;
-    answer.forwarder = user as Forwarder;
+    // answer.forwarder = user as Forwarder;
     await this.answerRepository.manager.save(answer);
   }
 
@@ -52,17 +54,18 @@ export class AnswerService {
     return answer;
   }
   async getAnswersByUser(userID: string): Promise<Array<Answer>> {
-    const user = (await this.userService.getUserById(
-      userID,
-      UserRole.FORWARDER
-    )) as Forwarder;
-    if (user == null) {
-      throw new BadRequestException('Unknown User');
-    }
-    const sheets = await this.answerRepository.find({
-      relations: { forwarder: true },
-      where: { forwarder: { id: userID } },
-    });
-    return sheets;
+    // const user = (await this.userService.getUserById(
+    //   userID,
+    //   UserRole.FORWARDER
+    // )) as Forwarder;
+    // if (user == null) {
+    //   throw new BadRequestException('Unknown User');
+    // }
+    // const sheets = await this.answerRepository.find({
+    //   relations: { forwarder: true },
+    //   where: { forwarder: { id: userID } },
+    // });
+    // return sheets;
+    return;
   }
 }

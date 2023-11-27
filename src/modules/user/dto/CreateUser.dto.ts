@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { UserRole } from '../entity/user.entity';
 
-export abstract class UserDTO {
+export abstract class CreateUserDTO {
   @ApiProperty({
     description: 'username',
     example: 'laolee010126',

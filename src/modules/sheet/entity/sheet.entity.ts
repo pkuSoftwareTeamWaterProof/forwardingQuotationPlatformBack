@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 
 import { Answer } from '../../answer/entity/answer.entity';
-import { Customer } from '../../user/entity/user.entity';
+import { User } from '../../user/entity/user.entity';
 
 @Entity()
 export class Sheet {
@@ -58,8 +58,8 @@ export class Sheet {
   })
   updatedAt: Date | undefined;
 
-  @ManyToOne((type) => Customer, (customer) => customer.sheets)
-  customer: Customer;
+  @ManyToOne((type) => User, (user) => user.sheets)
+  customer: User;
 
   @Column()
   live: boolean;

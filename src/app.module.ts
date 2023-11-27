@@ -1,18 +1,18 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import {
-  Firm,
-  Customer,
-  Forwarder,
-  Administrator,
-} from './modules/user/entity/user.entity';
-import { Sheet } from './modules/sheet/entity/sheet.entity';
+
 import { UserModule } from './modules/user/user.module';
 import { SheetModule } from './modules/sheet/sheet.module';
-import { Answer } from './modules/answer/entity/answer.entity';
 import { AnswerModule } from './modules/answer/answer.module';
 import { AuthModule } from './modules/auth/auth.module';
+
+import { User } from './modules/user/entity/user.entity';
+import { Firm } from './modules/user/entity/firm.entity';
+import { Answer } from './modules/answer/entity/answer.entity';
+import { Sheet } from './modules/sheet/entity/sheet.entity';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './guard/auth.guard';
 
 @Module({
   imports: [
@@ -32,13 +32,19 @@ import { AuthModule } from './modules/auth/auth.module';
       // 需要创建一个 ‘forwardingQuotationPlatform’ schema
       database: process.env.DB_NAME,
       // 创建的 entity 需要 import 到这里
-      entities: [Firm, Customer, Forwarder, Administrator, Sheet, Answer],
+      entities: [Firm, Sheet, Answer, User],
       synchronize: true,
     }),
     AuthModule,
     UserModule,
     SheetModule,
     AnswerModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
   ],
 })
 export class AppModule {}
