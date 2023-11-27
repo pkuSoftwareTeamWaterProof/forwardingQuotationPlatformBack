@@ -39,13 +39,15 @@ export class AnswerController {
   }
 
   @Get(':answerID')
-  getAnswerByAnswerId(@Param() answerid: string): Promise<Answer> {
+  getAnswerByAnswerId(@Param('answerID') answerid: string): Promise<Answer> {
     const answer = this.answerservice.getAnswerByAnswerId(answerid);
     return answer;
   }
 
   @Get(':sheetID')
-  getAnswerBySheetId(@Param() sheetid: string): Promise<Array<Answer>> {
+  getAnswerBySheetId(
+    @Param('sheetID') sheetid: string
+  ): Promise<Array<Answer>> {
     return this.answerservice.getAnswerBySheetId(sheetid);
   }
 

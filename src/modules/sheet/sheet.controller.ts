@@ -53,13 +53,15 @@ export class SheetController {
   }
 
   @Get(':sheetId')
-  async getSheetById(@Param("sheetId") sheetid: string): Promise<Sheet> {
+  async getSheetById(@Param('sheetId') sheetid: string): Promise<Sheet> {
     const sheet = this.sheetservice.getSheetById(sheetid);
     return sheet;
   }
 
   @Get('list/:customerID')
-  async getSheetsByUser(@Param("customerID") customerID:string): Promise<Array<Sheet>> {
+  async getSheetsByUser(
+    @Param('customerID') customerID: string
+  ): Promise<Array<Sheet>> {
     const sheets = this.sheetservice.getSheetsByUser(customerID);
     return sheets;
   }

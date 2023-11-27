@@ -6,7 +6,7 @@ import { SheetService } from './sheet.service';
 import { UserModule } from '../user/user.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Sheet]),UserModule],
+  imports: [TypeOrmModule.forFeature([Sheet]), UserModule],
   controllers: [SheetController],
   providers: [SheetService],
 })
