@@ -58,9 +58,6 @@ export class Sheet {
   })
   updatedAt: Date | undefined;
 
-  @ManyToOne((type) => User, (user) => user.sheets)
-  customer: User;
-
-  @Column()
-  live: boolean;
+  // @ManyToOne((type) => Customer, (customer) => customer.sheets)
+  // customer: Customer;
 }
