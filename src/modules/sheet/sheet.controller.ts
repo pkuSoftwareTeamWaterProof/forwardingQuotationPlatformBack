@@ -12,6 +12,7 @@ import { CreateSheetDTO } from './dto/createSheet.dto';
 import { Sheet } from './entity/sheet.entity';
 import { SheetService } from './sheet.service';
 import { ApiTags, ApiOkResponse } from '@nestjs/swagger';
+import { ReturnSheetDTO } from './dto/ReturnSheet.dto';
 
 @ApiTags('api/sheet')
 @Controller('api/sheet')
@@ -40,13 +41,13 @@ export class SheetController {
   }
 
   @Get()
-  @ApiOkResponse({ description: '返回全部表单' })
+  @ApiOkResponse({ description: '返回全部表单-列表', type: ReturnSheetDTO })
   async getAllSheet(): Promise<Sheet[]> {
     return await this.sheetservice.findAll();
   }
 
   @Get('select/:startpoint/:endpoint')
-  @ApiOkResponse({ description: '返回相应条件表单' })
+  @ApiOkResponse({ description: '返回相应条件表单-列表', type: ReturnSheetDTO })
   async selectSheet(
     @Param('startpoint') startpoint: string,
     @Param('endpoint') endpoint: string
@@ -55,14 +56,17 @@ export class SheetController {
   }
 
   @Get(':sheetId')
-  @ApiOkResponse({ description: '返回对应sheetid的表单' })
+  @ApiOkResponse({ description: '返回对应sheetid的表单', type: ReturnSheetDTO })
   async getSheetById(@Param('sheetId') sheetid: string): Promise<Sheet> {
     const sheet = this.sheetservice.getSheetById(sheetid);
     return sheet;
   }
 
   @Get('list/:customerID')
-  @ApiOkResponse({ description: '返回customerid对应的表单' })
+  @ApiOkResponse({
+    description: '返回customerid对应的表单-列表',
+    type: ReturnSheetDTO,
+  })
   async getSheetsByUser(
     @Param('customerID') customerID: string
   ): Promise<Array<Sheet>> {
