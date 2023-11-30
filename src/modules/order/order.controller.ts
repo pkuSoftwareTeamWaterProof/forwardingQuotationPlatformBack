@@ -8,9 +8,10 @@ import {
   Put,
 } from '@nestjs/common';
 import { CreateOrderDTO } from './dto/Createorder.dto';
+import { ReturnOrderDTO } from './dto/Returnorder.dto';
 import { Order } from './entity/order.entity';
 import { OrderService } from './order.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiOkResponse } from '@nestjs/swagger';
 
 @ApiTags('api/order')
 @Controller('api/order')
@@ -24,7 +25,11 @@ export class OrderController {
   }
 
   @Get(':orderID')
-  getOrderById(@Param() orderid: string): Promise<Order> {
+  @ApiOkResponse({
+    description: '返回customerid对应的表单-列表',
+    type: ReturnOrderDTO,
+  })
+  getOrderById(@Param('orderID') orderid: string): Promise<Order> {
     const order = this.orderservice.getOrderById(orderid);
     return order;
   }

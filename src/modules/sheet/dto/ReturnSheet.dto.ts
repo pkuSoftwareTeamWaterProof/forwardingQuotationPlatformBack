@@ -2,6 +2,12 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class ReturnSheetDTO {
   @ApiProperty({
+    description: 'id',
+    example: '10001',
+  })
+  id: string;
+
+  @ApiProperty({
     description: '起点',
     example: '中国北京',
   })
