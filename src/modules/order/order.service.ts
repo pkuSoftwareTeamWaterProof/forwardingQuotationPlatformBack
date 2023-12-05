@@ -19,7 +19,9 @@ export class OrderService {
     order.context = createOrderDTO.context;
     const sheet = await this.findsheet.getSheetById(createOrderDTO.sheetid);
     await this.findsheet.deleteSheet(createOrderDTO.sheetid);
-    const answer = await this.findanswer.getAnswerByAnswerId(createOrderDTO.answerid);
+    const answer = await this.findanswer.getAnswerByAnswerId(
+      createOrderDTO.answerid
+    );
     await this.findanswer.deleteAnswer(createOrderDTO.answerid);
     order.sheet = sheet;
     order.answer = answer;
@@ -28,6 +30,18 @@ export class OrderService {
 
   async getOrderById(Orderid: string): Promise<Order> {
     const order = await this.orderRepository.findOneBy({ id: Orderid });
+    return order;
+  }
+
+  async getOrderBysheetId(Sheetid: string): Promise<Order> {
+    const sheet = await this.findsheet.getSheetById(Sheetid);
+    const order = await this.orderRepository.findOneBy({ sheet: sheet });
+    return order;
+  }
+
+  async getOrderByanswerId(Answerid: string): Promise<Order> {
+    const answer = await this.findanswer.getAnswerByAnswerId(Answerid);
+    const order = await this.orderRepository.findOneBy({ answer: answer });
     return order;
   }
 }
