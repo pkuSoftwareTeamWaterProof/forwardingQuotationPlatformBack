@@ -55,7 +55,7 @@ export class UserService {
     return firm;
   }
 
-  async getUserById(userId: string, userRole: UserRole | undefined): Promise<User> {
+  async getUserById(userId: string, userRole: UserRole | undefined = undefined): Promise<User> {
     const select_tag={ id: userId };
     if(userRole !== undefined){
       select_tag["role"] = userRole;
@@ -65,7 +65,7 @@ export class UserService {
     return user;
   }
 
-  async getUserByName(userName: string, userRole: UserRole | undefined): Promise<User | null> {
+  async getUserByName(userName: string, userRole: UserRole | undefined = undefined): Promise<User | null> {
     const select_tag={ username: userName };
     if(userRole !== undefined){
       select_tag["role"] = userRole;
