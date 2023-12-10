@@ -17,8 +17,6 @@ export class SheetService {
 
   async createSheet(createSheetDTO: CreateSheetDTO) {
     const sheet = new Sheet();
-    //TODO: bug fix
-    // const user = await this.userService.getUserById(createSheetDTO.customerID);
     const userId = createSheetDTO.customerID;
     if (userId == null) {
       throw new BadRequestException('Unknown Customer');
