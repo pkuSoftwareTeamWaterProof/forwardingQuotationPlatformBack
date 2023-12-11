@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Order } from './entity/order.entity';
+import { Ordert } from './entity/order.entity';
 import { OrderController } from './order.controller';
 import { OrderService } from './order.service';
 import { SheetService } from '../sheet/sheet.service';
@@ -10,7 +10,7 @@ import { AnswerService } from '../answer/answer.service';
 import { UserModule } from '../user/user.module';
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Order]),
+    TypeOrmModule.forFeature([Ordert]),
     TypeOrmModule.forFeature([Answer]),
     TypeOrmModule.forFeature([Sheet]),
     UserModule,

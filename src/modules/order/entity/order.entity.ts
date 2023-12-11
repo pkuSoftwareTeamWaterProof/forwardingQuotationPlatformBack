@@ -11,7 +11,7 @@ import {
 import { Sheet } from '../../sheet/entity/sheet.entity';
 import { Answer } from '../../answer/entity/answer.entity';
 @Entity()
-export class Order {
+export class Ordert {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
