@@ -29,8 +29,11 @@ export class AnswerService {
     answer.price = createAnswerDTO.price;
     answer.remark = createAnswerDTO.remark;
     const sheet = await this.findsheet.getSheetById(createAnswerDTO.Sheetid);
+    if (sheet == null){
+      throw new BadRequestException('Unknown Sheet');
+    }
     answer.sheet = sheet;
-    // answer.forwarder = user as Forwarder;
+    answer.forwarder = user;
     await this.answerRepository.manager.save(answer);
   }
 
@@ -49,7 +52,7 @@ export class AnswerService {
 
   async getAnswerByAnswerId(Answerid: string): Promise<Answer> {
     const answer = await this.answerRepository.findOne({
-      relations: ['sheet'],
+      relations: ['sheet','forwarder'],
       where: { id: Answerid },
     });
     return answer;
@@ -59,7 +62,7 @@ export class AnswerService {
     const sheet = await this.findsheet.getSheetById(sheetid);
 
     return this.answerRepository.find({
-      relations: { sheet: true },
+      relations: ['sheet','forwarder'],
       where: { sheet: { id: sheetid } },
     });
   }
@@ -70,7 +73,7 @@ export class AnswerService {
       throw new BadRequestException('Unknown User');
     }
     const sheets = await this.answerRepository.find({
-      relations: { forwarder: true },
+      relations: ['sheet','forwarder'],
       where: { forwarder: { id: userID } },
     });
     return sheets;

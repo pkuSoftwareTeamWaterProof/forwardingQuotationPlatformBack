@@ -6,6 +6,7 @@ import {
   Post,
   Delete,
   Put,
+  NotFoundException,
 } from '@nestjs/common';
 import { CreateAnswerDTO } from './dto/CreateAnswer.dto';
 import { Answer } from './entity/answer.entity';
@@ -20,12 +21,27 @@ export class AnswerController {
   constructor(private readonly answerservice: AnswerService) {}
 
   answerToDTO(answer: Answer): AnswerDTO {
+    var sheetID = undefined;
+    var forwarderID = undefined;
+    if (answer['sheet'] === null) {
+      console.error('Warning: An answer without a sheet');
+      sheetID = null;
+    } else {
+      sheetID = answer.sheet.id;
+    }
+    if (answer['forwarder'] === null) {
+      console.error('Warning: An answer without a forwarder');
+      forwarderID = null;
+    } else {
+      forwarderID = answer.forwarder.id;
+    }
     const dto: AnswerDTO = {
       id: answer.id,
       remark: answer.remark,
-      //sheetID: answer.sheet.id,
+      sheetID: sheetID,
       createdAt: answer.createdAt,
       updateAt: answer.updatedAt,
+      forwarderID: forwarderID,
     };
     return dto;
   }
@@ -67,7 +83,9 @@ export class AnswerController {
     @Param('answerID') answerid: string
   ): Promise<AnswerDTO> {
     const answer = await this.answerservice.getAnswerByAnswerId(answerid);
-
+    if (answer === null) {
+      throw new NotFoundException('Unknown Answer ID');
+    }
     return this.answerToDTO(answer);
   }
 
