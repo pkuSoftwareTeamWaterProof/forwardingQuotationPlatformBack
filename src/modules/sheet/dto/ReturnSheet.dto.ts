@@ -63,11 +63,6 @@ export class ReturnSheetDTO {
   enddate: string;
 
   @ApiProperty({
-    description: 'Customer的UUID',
-  })
-  customerID: string;
-
-  @ApiProperty({
     description: '创建时间',
   })
   createdAt: Date;

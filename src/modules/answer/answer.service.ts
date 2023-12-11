@@ -49,7 +49,10 @@ export class AnswerService {
   }
 
   async getAnswerByAnswerId(Answerid: string): Promise<Answer> {
-    const answer = await this.answerRepository.findOneBy({ id: Answerid });
+    const answer = await this.answerRepository.findOne({
+      relations: ['sheet'],
+      where: { id: Answerid },
+    });
     return answer;
   }
 
