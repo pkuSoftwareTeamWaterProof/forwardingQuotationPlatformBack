@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { CreateOrderDTO } from './dto/Createorder.dto';
 import { ReturnOrderDTO } from './dto/Returnorder.dto';
-import { Order } from './entity/order.entity';
+import { Ordert } from './entity/order.entity';
 import { OrderService } from './order.service';
 import { ApiTags, ApiOkResponse } from '@nestjs/swagger';
 
@@ -29,7 +29,7 @@ export class OrderController {
     description: '返回orderid对应的表单-列表',
     type: ReturnOrderDTO,
   })
-  getOrderByorderId(@Param('orderID') orderid: string): Promise<Order> {
+  getOrderByorderId(@Param('orderID') orderid: string): Promise<Ordert> {
     const order = this.orderservice.getOrderById(orderid);
     return order;
   }
@@ -39,7 +39,7 @@ export class OrderController {
     description: '返回sheetid对应的表单-列表',
     type: ReturnOrderDTO,
   })
-  getOrderBysheetId(@Param('sheetID') sheetid: string): Promise<Order> {
+  getOrderBysheetId(@Param('sheetID') sheetid: string): Promise<Ordert> {
     const order = this.orderservice.getOrderBysheetId(sheetid);
     return order;
   }
@@ -49,7 +49,7 @@ export class OrderController {
     description: '返回answerid对应的表单-列表',
     type: ReturnOrderDTO,
   })
-  getOrderByanswerId(@Param('answerID') answerid: string): Promise<Order> {
+  getOrderByanswerId(@Param('answerID') answerid: string): Promise<Ordert> {
     const order = this.orderservice.getOrderByanswerId(answerid);
     return order;
   }
