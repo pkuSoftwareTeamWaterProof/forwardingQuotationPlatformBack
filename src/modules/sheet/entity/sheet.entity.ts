@@ -6,6 +6,7 @@ import {
   CreateDateColumn,
   OneToMany,
   ManyToOne,
+  DeleteDateColumn,
 } from 'typeorm';
 
 import { Answer } from '../../answer/entity/answer.entity';
@@ -57,6 +58,12 @@ export class Sheet {
     name: 'UpdateDate',
   })
   updatedAt: Date | undefined;
+
+  @DeleteDateColumn({
+    type: 'timestamp',
+    name: 'DeleteDate',
+  })
+  deletedAt: Date | undefined;
 
   @ManyToOne((type) => User, (user) => user.sheets)
   customer: User;

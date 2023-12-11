@@ -13,11 +13,13 @@ export class AnswerDTO {
   })
   remark: string;
 
+  /*
   @ApiProperty({
     description: '询价单ID',
     example: 'yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy',
   })
   sheetID: string;
+  */
 
   @ApiProperty({
     description: '创建时间',

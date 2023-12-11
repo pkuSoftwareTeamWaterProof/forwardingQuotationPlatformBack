@@ -71,4 +71,9 @@ export class ReturnSheetDTO {
     description: '更新时间',
   })
   updatedAt: Date;
+
+  @ApiProperty({
+    description: '删除时间',
+  })
+  deleteddAt: Date;
 }

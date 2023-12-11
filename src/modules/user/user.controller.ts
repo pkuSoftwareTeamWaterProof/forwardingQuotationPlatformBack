@@ -38,10 +38,6 @@ export class UserController {
     const user = await this.userService.getUserById(userId);
     return user;
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> ec4d3908a0d8f9c15d5d10aee43d87c3f43ae62f
   @Public()
   @ApiBearerAuth()
   @Get('getByName/:userName')

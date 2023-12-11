@@ -20,7 +20,8 @@ export class AnswerService {
   async createAnswer(createAnswerDTO: CreateAnswerDTO) {
     const answer = new Answer();
     const user = await this.userService.getUserById(
-      createAnswerDTO.forwarderID, UserRole.FORWARDER
+      createAnswerDTO.forwarderID,
+      UserRole.FORWARDER
     );
     if (user == null) {
       throw new BadRequestException('Unknown Forwarder');
@@ -56,14 +57,15 @@ export class AnswerService {
 
   async getAnswerBySheetId(sheetid: string): Promise<Array<Answer>> {
     const sheet = await this.findsheet.getSheetById(sheetid);
-    return sheet.answer;
+
+    return this.answerRepository.find({
+      relations: { sheet: true },
+      where: { sheet: { id: sheetid } },
+    });
   }
 
   async getAnswersByUser(userID: string): Promise<Array<Answer>> {
-    const user = (await this.userService.getUserById(
-      userID,
-      UserRole.FORWARDER
-    ));
+    const user = await this.userService.getUserById(userID, UserRole.FORWARDER);
     if (user == null) {
       throw new BadRequestException('Unknown User');
     }

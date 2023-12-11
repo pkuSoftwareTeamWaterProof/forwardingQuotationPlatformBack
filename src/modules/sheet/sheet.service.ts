@@ -21,8 +21,11 @@ export class SheetService {
     if (userId == null) {
       throw new BadRequestException('Unknown Customer');
     }
-    const customer = await this.userService.getUserById(userId, UserRole.CUSTOMER);
-    if (customer == null){
+    const customer = await this.userService.getUserById(
+      userId,
+      UserRole.CUSTOMER
+    );
+    if (customer == null) {
       throw new BadRequestException('Unknown Customer');
     }
     sheet.startpoint = createSheetDTO.startpoint;
@@ -74,15 +77,14 @@ export class SheetService {
   }
 
   async getSheetById(Sheetid: string): Promise<Sheet> {
-    const sheet = await this.sheetRepository.findOneBy({ id: Sheetid });
+    const sheet = await this.sheetRepository.findOne({
+      where: { id: Sheetid },
+    });
     return sheet;
   }
 
   async getSheetsByUser(userID: string): Promise<Array<Sheet>> {
-    const user = (await this.userService.getUserById(
-      userID,
-      UserRole.CUSTOMER
-    ));
+    const user = await this.userService.getUserById(userID, UserRole.CUSTOMER);
     if (user == null) {
       throw new BadRequestException('Unknown User');
     }

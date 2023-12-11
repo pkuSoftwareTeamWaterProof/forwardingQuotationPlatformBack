@@ -23,7 +23,7 @@ export class AnswerController {
     const dto: AnswerDTO = {
       id: answer.id,
       remark: answer.remark,
-      sheetID: answer.sheet.id,
+      //sheetID: answer.sheet.id,
       createdAt: answer.createdAt,
       updateAt: answer.updatedAt,
     };
@@ -77,7 +77,7 @@ export class AnswerController {
     type: AnswerDTO,
     isArray: true,
   })
-  @Get(':sheetID')
+  @Get('sheet/:sheetID')
   async getAnswerBySheetId(
     @Param('sheetID') sheetid: string
   ): Promise<Array<AnswerDTO>> {
