@@ -13,7 +13,7 @@ export class AuthService {
     console.log(username);
     console.log(pass);
 
-    const user = await this.userService.getUserByName(username);
+    const user = await this.userService.getUserByName(username, false);
 
     if (user?.password !== pass) {
       throw new UnauthorizedException();

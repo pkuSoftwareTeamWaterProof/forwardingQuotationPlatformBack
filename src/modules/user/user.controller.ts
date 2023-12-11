@@ -42,7 +42,7 @@ export class UserController {
   @ApiBearerAuth()
   @Get('getByName/:userName')
   async getUserByName(@Param('userName') userName: string): Promise<User> {
-    const user = await this.userService.getUserByName(userName);
+    const user = await this.userService.getUserByName(userName, false);
     return user;
   }
 
