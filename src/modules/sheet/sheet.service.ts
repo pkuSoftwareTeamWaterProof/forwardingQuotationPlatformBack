@@ -90,7 +90,7 @@ export class SheetService {
   async getSheetsByUser(userID: string): Promise<Array<Sheet>> {
     const user = await this.userService.getUserById(userID, UserRole.CUSTOMER);
     if (user == null) {
-      throw new BadRequestException('Unknown User');
+      throw new BadRequestException("Unknown User");
     }
     const sheets = await this.sheetRepository.find({
       relations: { customer: true },
