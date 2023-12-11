@@ -55,14 +55,22 @@ export class UserService {
     return firm;
   }
 
-  async getUserById(userId: string): Promise<User> {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+  async getUserById(userId: string, userRole: UserRole | undefined = undefined): Promise<User> {
+    const select_tag={ id: userId };
+    if(userRole !== undefined){
+      select_tag["role"] = userRole;
+    }
+    const user = await this.userRepository.findOneBy(select_tag);
     if (!user) throw new NotFoundException('没有找到用户信息');
     return user;
   }
 
-  async getUserByName(userName: string): Promise<User | null> {
-    const user = await this.userRepository.findOneBy({ username: userName });
+  async getUserByName(userName: string, userRole: UserRole | undefined = undefined): Promise<User | null> {
+    const select_tag={ username: userName };
+    if(userRole !== undefined){
+      select_tag["role"] = userRole;
+    }
+    const user = await this.userRepository.findOneBy(select_tag);
     console.log(user);
 
     return user;
