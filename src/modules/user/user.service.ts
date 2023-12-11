@@ -71,8 +71,7 @@ export class UserService {
       select_tag["role"] = userRole;
     }
     const user = await this.userRepository.findOneBy(select_tag);
-    console.log(user);
-
+    if(user == null) throw new NotFoundException('没有找到用户信息');
     return user;
   }
 

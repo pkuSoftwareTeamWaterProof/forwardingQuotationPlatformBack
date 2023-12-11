@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateSheetDTO } from './dto/createSheet.dto';
@@ -6,6 +6,7 @@ import { Sheet } from './entity/sheet.entity';
 import { Answer } from '../answer/entity/answer.entity';
 import { User, UserRole } from '../user/entity/user.entity';
 import { UserService } from '../user/user.service';
+import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class SheetService {
@@ -80,6 +81,9 @@ export class SheetService {
     const sheet = await this.sheetRepository.findOne({
       where: { id: Sheetid },
     });
+    if(sheet === null){
+      throw new BadRequestException("Unknown Sheet ID");
+    }
     return sheet;
   }
 
