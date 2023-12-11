@@ -29,6 +29,7 @@ export class UserController {
     return;
   }
 
+  @Public()
   @ApiBearerAuth()
   @ApiOkResponse({ description: '查询成功', type: UserDTO })
   @ApiNotFoundResponse({ description: '查询失败' })
@@ -38,6 +39,7 @@ export class UserController {
     return user;
   }
 
+  @Public()
   @ApiBearerAuth()
   @Get('getByName/:userName')
   async getUserByName(@Param('userName') userName: string): Promise<User> {
@@ -46,6 +48,7 @@ export class UserController {
   }
 
   //TODO: 查询自己的userData
+  @Public()
   @ApiBearerAuth()
   @ApiOkResponse({})
   @Get('me')
@@ -67,18 +70,21 @@ export class FirmController {
   //   return;
   // }
 
+  @Public()
   @Get('getById/:firmId')
   async getFirmById(@Param('firmId') firmId: string): Promise<Firm> {
     const firm = await this.userService.getFrimById(firmId);
     return firm;
   }
 
+  @Public()
   @Get('getByName/:firmName')
   async getFirmByName(@Param('firmName') firmName: string): Promise<Firm> {
     const firm = await this.userService.getFirmByName(firmName);
     return firm;
   }
 
+  @Public()
   @Get('list')
   async getAllFirms(): Promise<Array<Firm>> {
     const firms = await this.userService.getAllFirms();
