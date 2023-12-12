@@ -32,7 +32,7 @@ export class UserService {
   }
 
   async createUser(createUserDTO: CreateUserDTO) {
-    const existingUser = await this.getUserByName(createUserDTO.username);
+    const existingUser = await this.getUserByName(createUserDTO.username, true);
     if (existingUser) throw new ConflictException();
 
     const user = new User();
@@ -65,13 +65,13 @@ export class UserService {
     return user;
   }
 
-  async getUserByName(userName: string, userRole: UserRole | undefined = undefined): Promise<User | null> {
+  async getUserByName(userName: string, creating: boolean, userRole: UserRole | undefined = undefined): Promise<User | null> {
     const select_tag={ username: userName };
     if(userRole !== undefined){
       select_tag["role"] = userRole;
     }
     const user = await this.userRepository.findOneBy(select_tag);
-    if(user == null) throw new NotFoundException('没有找到用户信息');
+    if(user == null && !creating) throw new NotFoundException('没有找到用户信息');
     return user;
   }
 
