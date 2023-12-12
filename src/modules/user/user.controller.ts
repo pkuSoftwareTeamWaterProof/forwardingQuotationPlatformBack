@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CreateUserDTO } from './dto/CreateUser.dto';
 import { UserDTO } from './dto/User.dto';
 import { User } from './entity/user.entity';
@@ -14,6 +14,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Public } from 'src/decorators/public.decorator';
+import { NotFoundException } from '@nestjs/common';
 
 @ApiTags('user')
 @Controller('api/user')
@@ -36,6 +37,7 @@ export class UserController {
   @Get('getByID/:userId')
   async getUserById(@Param('userId') userId: string): Promise<User> {
     const user = await this.userService.getUserById(userId);
+    if (!user) throw new NotFoundException('没有找到用户信息');
     return user;
   }
   @Public()
@@ -43,6 +45,7 @@ export class UserController {
   @Get('getByName/:userName')
   async getUserByName(@Param('userName') userName: string): Promise<User> {
     const user = await this.userService.getUserByName(userName);
+    if(user == null) throw new NotFoundException('没有找到用户信息');
     return user;
   }
 
@@ -53,6 +56,7 @@ export class UserController {
   @Get('me')
   async getMyUserData(@Param('userId') userId: string): Promise<User> {
     const user = await this.userService.getUserById(userId);
+    if(user===null) throw new BadRequestException("Unknown User");
     return user;
   }
 }
