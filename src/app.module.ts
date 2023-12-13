@@ -25,17 +25,17 @@ import { OrderModule } from './modules/order/order.module';
     // 按照个人 mysql 设置
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.DB_HOST,
-      port: parseInt(process.env.DB_PORT),
+      host: '127.0.0.1',
+      port: 3306,
       // 需要写自己的
-      username: process.env.DB_USERNAME,
+      username: 'root',
       // 需要写自己的
-      password: process.env.DB_PASSWORD,
+      password: '14735826270',
       // 需要创建一个 ‘forwardingQuotationPlatform’ schema
-      database: process.env.DB_NAME,
+      database: 'softwork',
       // 创建的 entity 需要 import 到这里
       entities: [Firm, Sheet, Answer, User, Ordert],
-      synchronize: true,
+      //synchronize: true,
     }),
     AuthModule,
     UserModule,

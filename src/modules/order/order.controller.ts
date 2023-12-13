@@ -49,6 +49,19 @@ export class OrderController {
   }
 
   @Public()
+  @Get('cusromerid/:customerID')
+  @ApiOkResponse({
+    description: '返回customerid对应的表单-列表',
+    type: ReturnOrderDTO,
+  })
+  getOrderBycustomerId(
+    @Param('customerID') customerid: string
+  ): Promise<Array<Ordert>> {
+    const order = this.orderservice.getOrderBycustomerId(customerid);
+    return order;
+  }
+
+  @Public()
   @Get('answerid/:answerID')
   @ApiOkResponse({
     description: '返回answerid对应的表单-列表',
@@ -56,6 +69,19 @@ export class OrderController {
   })
   getOrderByanswerId(@Param('answerID') answerid: string): Promise<Ordert> {
     const order = this.orderservice.getOrderByanswerId(answerid);
+    return order;
+  }
+
+  @Public()
+  @Get('forwardid/:forwarderID')
+  @ApiOkResponse({
+    description: '返回forwardid对应的表单-列表',
+    type: ReturnOrderDTO,
+  })
+  getOrderByforwarderId(
+    @Param('forwarderID') forwardid: string
+  ): Promise<Array<Ordert>> {
+    const order = this.orderservice.getOrderByforwarderId(forwardid);
     return order;
   }
 }

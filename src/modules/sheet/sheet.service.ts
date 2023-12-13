@@ -1,4 +1,8 @@
-import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateSheetDTO } from './dto/createSheet.dto';
@@ -81,8 +85,8 @@ export class SheetService {
     const sheet = await this.sheetRepository.findOne({
       where: { id: Sheetid },
     });
-    if(sheet === null){
-      throw new BadRequestException("Unknown Sheet ID");
+    if (sheet === null) {
+      throw new BadRequestException('Unknown Sheet ID');
     }
     return sheet;
   }
@@ -93,7 +97,7 @@ export class SheetService {
       throw new BadRequestException('Unknown User');
     }
     const sheets = await this.sheetRepository.find({
-      relations: { customer: true },
+      //relations: { customer: true },
       where: { customer: { id: userID } },
     });
     return sheets;
