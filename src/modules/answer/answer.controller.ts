@@ -37,6 +37,7 @@ export class AnswerController {
     }
     const dto: AnswerDTO = {
       id: answer.id,
+      price: answer.price,
       remark: answer.remark,
       sheetID: sheetID,
       createdAt: answer.createdAt,
