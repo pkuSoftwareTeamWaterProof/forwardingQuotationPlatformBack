@@ -55,7 +55,7 @@ export class UserService {
     return firm;
   }
 
-  async getUserById(userId: string, userRole: UserRole | undefined = undefined): Promise<User> {
+  async getUserById(userId: string, userRole: UserRole | undefined = undefined): Promise<User | null> {
     const select_tag={ id: userId };
     if(userRole !== undefined){
       select_tag["role"] = userRole;
@@ -73,7 +73,7 @@ export class UserService {
     return user;
   }
 
-  async getAllFirms(): Promise<Array<Firm>> {
+  async getAllFirms(): Promise<Array<Firm | null>> {
     const firms = await this.firmRepository.find();
     return firms;
   }

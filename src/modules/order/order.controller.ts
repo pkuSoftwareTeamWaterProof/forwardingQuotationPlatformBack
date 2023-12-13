@@ -12,7 +12,7 @@ import { ReturnOrderDTO } from './dto/Returnorder.dto';
 import { Ordert } from './entity/order.entity';
 import { OrderService } from './order.service';
 import { ApiTags, ApiOkResponse } from '@nestjs/swagger';
-import { Public } from 'src/decorators/public.decorator';
+import { Public } from '../../decorators/public.decorator';
 
 @ApiTags('api/order')
 @Controller('api/order')

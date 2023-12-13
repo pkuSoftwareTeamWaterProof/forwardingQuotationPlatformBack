@@ -13,7 +13,7 @@ import { Answer } from './entity/answer.entity';
 import { AnswerService } from './answer.service';
 import { ApiOkResponse, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { AnswerDTO } from './dto/Answer.dto';
-import { Public } from 'src/decorators/public.decorator';
+import { Public } from '../../decorators/public.decorator';
 
 @ApiTags('api/answer')
 @Controller('api/answer')

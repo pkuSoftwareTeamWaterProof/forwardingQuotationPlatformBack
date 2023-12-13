@@ -13,7 +13,7 @@ import { Sheet } from './entity/sheet.entity';
 import { SheetService } from './sheet.service';
 import { ApiTags, ApiOkResponse } from '@nestjs/swagger';
 import { ReturnSheetDTO } from './dto/ReturnSheet.dto';
-import { Public } from 'src/decorators/public.decorator';
+import { Public } from '../../decorators/public.decorator';
 
 @ApiTags('api/sheet')
 @Controller('api/sheet')
