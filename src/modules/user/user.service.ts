@@ -55,19 +55,25 @@ export class UserService {
     return firm;
   }
 
-  async getUserById(userId: string, userRole: UserRole | undefined = undefined): Promise<User | null> {
-    const select_tag={ id: userId };
-    if(userRole !== undefined){
-      select_tag["role"] = userRole;
+  async getUserById(
+    userId: string,
+    userRole: UserRole | undefined = undefined
+  ): Promise<User> {
+    const select_tag = { id: userId };
+    if (userRole !== undefined) {
+      select_tag['role'] = userRole;
     }
     const user = await this.userRepository.findOneBy(select_tag);
     return user;
   }
 
-  async getUserByName(userName: string, userRole: UserRole | undefined = undefined): Promise<User | null> {
-    const select_tag={ username: userName };
-    if(userRole !== undefined){
-      select_tag["role"] = userRole;
+  async getUserByName(
+    userName: string,
+    userRole: UserRole | undefined = undefined
+  ): Promise<User | null> {
+    const select_tag = { username: userName };
+    if (userRole !== undefined) {
+      select_tag['role'] = userRole;
     }
     const user = await this.userRepository.findOneBy(select_tag);
     return user;

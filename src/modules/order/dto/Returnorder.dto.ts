@@ -11,13 +11,13 @@ export class ReturnOrderDTO {
     description: '询价单id',
     example: 100,
   })
-  sheetid: string;
+  sheetId: string;
 
   @ApiProperty({
     description: '报价单id',
     example: 200,
   })
-  answerid: string;
+  answerId: string;
 
   @ApiProperty({
     description: '内容',

@@ -13,13 +13,17 @@ export class AnswerDTO {
   })
   remark: string;
 
-  
+  @ApiProperty({
+    description: '价格',
+    example: '100',
+  })
+  price: number;
+
   @ApiProperty({
     description: '询价单ID',
     example: 'yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy',
   })
   sheetID: string;
-  
 
   @ApiProperty({
     description: '创建时间',
@@ -34,8 +38,8 @@ export class AnswerDTO {
   updateAt: Date;
 
   @ApiProperty({
-    description:'货代ID',
-    example:'zzzzzzzz-zzzz-zzzz-zzzz-zzzzzzzzzzzz'
+    description: '货代ID',
+    example: 'zzzzzzzz-zzzz-zzzz-zzzz-zzzzzzzzzzzz',
   })
   forwarderID: string;
 }

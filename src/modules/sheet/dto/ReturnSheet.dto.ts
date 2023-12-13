@@ -64,16 +64,19 @@ export class ReturnSheetDTO {
 
   @ApiProperty({
     description: '创建时间',
+    example: '2023-12-01',
   })
   createdAt: Date;
 
   @ApiProperty({
     description: '更新时间',
+    example: '2023-12-01',
   })
   updatedAt: Date;
 
   @ApiProperty({
     description: '删除时间',
+    example: '2023-12-01',
   })
   deleteddAt: Date;
 }
