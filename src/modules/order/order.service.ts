@@ -5,6 +5,7 @@ import { CreateOrderDTO } from './dto/Createorder.dto';
 import { Ordert } from './entity/order.entity';
 import { SheetService } from '../sheet/sheet.service';
 import { AnswerService } from '../answer/answer.service';
+import { Answer } from '../answer/entity/answer.entity';
 @Injectable()
 export class OrderService {
   constructor(
@@ -29,7 +30,10 @@ export class OrderService {
   }
 
   async getOrderById(Orderid: string): Promise<Ordert> {
-    const order = await this.orderRepository.findOneBy({ id: Orderid });
+    const order = await this.orderRepository.findOne({
+      relations: ['answer', 'sheet'],
+      where: { id: Orderid },
+    });
     return order;
   }
 
@@ -38,9 +42,12 @@ export class OrderService {
     var orders: Array<Ordert> = new Array();
     for (let sheet of sheets) {
       const order = await this.orderRepository.findOne({
+        relations: ['sheet', 'answer'],
         where: { sheet: { id: sheet.id } },
       });
-      orders.push(order);
+      if (order) {
+        orders.push(order);
+      }
     }
     return orders;
   }
@@ -50,9 +57,12 @@ export class OrderService {
     var orders: Array<Ordert> = new Array();
     for (let answer of answers) {
       const order = await this.orderRepository.findOne({
+        relations: ['sheet', 'answer'],
         where: { answer: { id: answer.id } },
       });
-      orders.push(order);
+      if (order) {
+        orders.push(order);
+      }
     }
     return orders;
   }
@@ -60,6 +70,7 @@ export class OrderService {
   async getOrderBysheetId(Sheetid: string): Promise<Ordert> {
     //const sheet = await this.findsheet.getSheetById(Sheetid);
     const order = await this.orderRepository.findOne({
+      relations: ['sheet', 'answer'],
       where: { sheet: { id: Sheetid } },
     });
     return order;
@@ -68,6 +79,7 @@ export class OrderService {
   async getOrderByanswerId(Answerid: string): Promise<Ordert> {
     //const answer = await this.findanswer.getAnswerByAnswerId(Answerid);
     const order = await this.orderRepository.findOne({
+      relations: ['sheet', 'answer'],
       where: { answer: { id: Answerid } },
     });
     return order;
