@@ -56,6 +56,18 @@ describe('AppController (e2e)', () => {
     telephone: '18501347653',
     email: 'test@myemail.com',
   };
+  const testsheettemp = {
+    startpoint: '中国北京',
+    endpoint: '美国华盛顿@',
+    weight: 100,
+    size: 100,
+    species: '化妆品',
+    type_of_shipping: '海运@',
+    remark: '加急加钱',
+    startdate: '2023-11-13',
+    enddate: '2023-12-01',
+    customerID: 'string',
+  };
 
   describe('user module', () => {
     it('/api/user/create (POST)', () => {
@@ -71,8 +83,8 @@ describe('AppController (e2e)', () => {
         .send(testcustomer);
       const res = await request(app.getHttpServer())
         .post('/api/user/create')
-        .send(duptestuser)
-        expect(res.status).toBe(HttpStatus.CONFLICT);
+        .send(duptestuser);
+      expect(res.status).toBe(HttpStatus.CONFLICT);
     });
 
     it('/api/user/getByName (GET)', async () => {
@@ -123,8 +135,8 @@ describe('AppController (e2e)', () => {
         .get('/api/user/getByName/shuiliunian')
         .send();
       const res2 = await request(app.getHttpServer())
-      .get('/api/user/getById/'+res.body.id)
-      .send();
+        .get('/api/user/getById/' + res.body.id)
+        .send();
       expect(res2.status).toBe(HttpStatus.OK);
       expect(res2.body).toStrictEqual(res.body);
     });
@@ -143,6 +155,58 @@ describe('AppController (e2e)', () => {
         .get('/api/user/getById/0')
         .send();
       expect(res.status).toBe(HttpStatus.NOT_FOUND);
+    });
+  });
+
+  describe('sheet module', () => {
+    it('/api/sheet/create (POST)', async () => {
+      await request(app.getHttpServer())
+        .post('/api/user/create')
+        .send(testcustomer);
+      const user = (
+        await request(app.getHttpServer()).get('/api/user/getByName/laolee010126').send()
+      ).body;
+      var sheet = Object.assign({}, testsheettemp);
+      sheet.customerID=user.id;
+      await request(app.getHttpServer())
+        .post('/api/sheet/create')
+        .send(sheet)
+        .expect(HttpStatus.CREATED);
+    });
+
+    it('/api/sheet/create (POST) unvalid customer', async () => {
+      await request(app.getHttpServer())
+        .post('/api/user/create')
+        .send(testforwarder);
+      const user = (
+        await request(app.getHttpServer()).get('/api/user/getByName/waterking201030').send()
+      ).body;
+      var sheet = Object.assign({}, testsheettemp);
+      sheet.customerID=user.id;
+      await request(app.getHttpServer())
+        .post('/api/sheet/create')
+        .send(sheet)
+        .expect(HttpStatus.BAD_REQUEST);
+    });
+
+    it('/api/sheet (GET)', async () => {
+      await request(app.getHttpServer())
+        .post('/api/user/create')
+        .send(testcustomer);
+      const user = (
+        await request(app.getHttpServer()).get('/api/user/getByName/laolee010126').send()
+      ).body;
+      var sheet = Object.assign({}, testsheettemp);
+      sheet.customerID=user.id;
+      await request(app.getHttpServer())
+        .post('/api/sheet/create')
+        .send(sheet)
+      const res = await request(app.getHttpServer())
+        .get('/api/sheet')
+        .send();
+      expect(res.status).toBe(HttpStatus.OK);
+      expect(res.body.length).toBe(1);
+      expect(res.body[0].startpoint).toBe("中国北京");
     });
   });
 
