@@ -1,4 +1,12 @@
-import { BadRequestException, Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Request,
+} from '@nestjs/common';
 import { CreateUserDTO } from './dto/CreateUser.dto';
 import { UserDTO } from './dto/User.dto';
 import { User } from './entity/user.entity';
@@ -12,6 +20,7 @@ import {
   ApiOkResponse,
   ApiResponse,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { Public } from 'src/decorators/public.decorator';
 import { NotFoundException } from '@nestjs/common';
@@ -40,23 +49,24 @@ export class UserController {
     if (!user) throw new NotFoundException('没有找到用户信息');
     return user;
   }
+
   @Public()
   @ApiBearerAuth()
   @Get('getByName/:userName')
   async getUserByName(@Param('userName') userName: string): Promise<User> {
     const user = await this.userService.getUserByName(userName);
-    if(user == null) throw new NotFoundException('没有找到用户信息');
+    if (user == null) throw new NotFoundException('没有找到用户信息');
     return user;
   }
 
-  //TODO: 查询自己的userData
-  @Public()
   @ApiBearerAuth()
   @ApiOkResponse({})
+  @ApiUnauthorizedResponse({})
   @Get('me')
-  async getMyUserData(@Param('userId') userId: string): Promise<User> {
+  async getMyUserData(@Request() req): Promise<User> {
+    const userId = req.user.id;
     const user = await this.userService.getUserById(userId);
-    if(user===null) throw new BadRequestException("Unknown User");
+    if (user === null) throw new BadRequestException('Unknown User');
     return user;
   }
 }

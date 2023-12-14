@@ -9,7 +9,7 @@ export class SignInDTO {
 
   @ApiProperty({
     description: '密码',
-    example: 'pass',
+    example: 'password123@',
   })
   password: string;
 }
