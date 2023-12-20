@@ -141,7 +141,7 @@ describe('AppController (e2e)', () => {
       expect(res2.body).toStrictEqual(res.body);
     });
 
-    it('/api/user/getById (GET)', async () => {
+    it('/api/user/getById (GET) null', async () => {
       await request(app.getHttpServer())
         .post('/api/user/create')
         .send(testcustomer);
