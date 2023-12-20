@@ -26,6 +26,10 @@ export class EvaluationService {
     return { success: true, cause: evaluation };
   }
 
+  async deleteEvaluation(evalId: string){
+    const entry = await this.evalRepository.softDelete({id : evalId});
+  }
+
   async getEvaluationById(evalId: string): Promise<Evaluation> {
     const evaluation = await this.evalRepository.findOne({
       relations: ['ordert'],
@@ -36,7 +40,7 @@ export class EvaluationService {
 
   async getEvaluationByOrderId(orderId: string): Promise<Evaluation> {
     const order = await this.orderService.getOrderById(orderId);
-    if(order === null) return null;
+    if(order === null) return undefined;
     return order.evaluation;
   }
 

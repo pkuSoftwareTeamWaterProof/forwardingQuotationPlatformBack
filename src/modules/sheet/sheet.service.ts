@@ -67,11 +67,6 @@ export class SheetService {
 
   async deleteSheet(Sheetid: string) {
     const sheet = await this.sheetRepository.softDelete({ id: Sheetid });
-    if (!sheet) {
-      throw new BadRequestException();
-    } else {
-      throw new NotFoundException();
-    }
   }
 
   async findAll(): Promise<Sheet[]> {
