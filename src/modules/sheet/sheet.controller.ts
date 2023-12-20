@@ -67,19 +67,19 @@ export class SheetController {
   }
 
   @Public()
-  @ApiOperation({ summary: '查询货主的询价单' })
+  @ApiOperation({ summary: '从ID查询询价单' })
   @Get(':sheetId')
-  @ApiOkResponse({ description: '返回货主的表单', type: ReturnSheetDTO })
+  @ApiOkResponse({ description: '返回ID对应的表单', type: ReturnSheetDTO })
   async getSheetById(@Param('sheetId') sheetid: string): Promise<Sheet> {
     const sheet = this.sheetservice.getSheetById(sheetid);
     return sheet;
   }
 
   @Public()
-  @ApiOperation({ summary: '查询货代的询价单' })
+  @ApiOperation({ summary: '查询货主的询价单' })
   @Get('list/:customerID')
   @ApiOkResponse({
-    description: '返回货代的表单-列表',
+    description: '返回货主的表单-列表',
     type: ReturnSheetDTO,
   })
   async getSheetsByUser(
