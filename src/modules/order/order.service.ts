@@ -31,7 +31,7 @@ export class OrderService {
 
   async getOrderById(Orderid: string): Promise<Ordert> {
     const order = await this.orderRepository.findOne({
-      relations: ['answer', 'sheet'],
+      relations: ['answer', 'sheet', 'evaluation'],
       where: { id: Orderid },
     });
     return order;
@@ -42,7 +42,7 @@ export class OrderService {
     var orders: Array<Ordert> = new Array();
     for (let sheet of sheets) {
       const order = await this.orderRepository.findOne({
-        relations: ['sheet', 'answer'],
+        relations: ['sheet', 'answer', 'evaluation'],
         where: { sheet: { id: sheet.id } },
       });
       if (order) {
@@ -57,7 +57,7 @@ export class OrderService {
     var orders: Array<Ordert> = new Array();
     for (let answer of answers) {
       const order = await this.orderRepository.findOne({
-        relations: ['sheet', 'answer'],
+        relations: ['sheet', 'answer', 'evaluation'],
         where: { answer: { id: answer.id } },
       });
       if (order) {
@@ -70,7 +70,7 @@ export class OrderService {
   async getOrderBysheetId(Sheetid: string): Promise<Ordert> {
     //const sheet = await this.findsheet.getSheetById(Sheetid);
     const order = await this.orderRepository.findOne({
-      relations: ['sheet', 'answer'],
+      relations: ['sheet', 'answer', 'evaluation'],
       where: { sheet: { id: Sheetid } },
     });
     return order;
@@ -79,7 +79,7 @@ export class OrderService {
   async getOrderByanswerId(Answerid: string): Promise<Ordert> {
     //const answer = await this.findanswer.getAnswerByAnswerId(Answerid);
     const order = await this.orderRepository.findOne({
-      relations: ['sheet', 'answer'],
+      relations: ['sheet', 'answer', 'evaluation'],
       where: { answer: { id: Answerid } },
     });
     return order;
