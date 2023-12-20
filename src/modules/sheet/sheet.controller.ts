@@ -11,16 +11,17 @@ import {
 import { CreateSheetDTO } from './dto/createSheet.dto';
 import { Sheet } from './entity/sheet.entity';
 import { SheetService } from './sheet.service';
-import { ApiTags, ApiOkResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { ReturnSheetDTO } from './dto/ReturnSheet.dto';
 import { Public } from 'src/decorators/public.decorator';
 
-@ApiTags('api/sheet')
+@ApiTags('询价单管理')
 @Controller('api/sheet')
 export class SheetController {
   constructor(private readonly sheetservice: SheetService) {}
 
   @Public()
+  @ApiOperation({ summary: '创建询价单' })
   @Post('create')
   async createSheet(@Body() createSheetDTO: CreateSheetDTO): Promise<void> {
     await this.sheetservice.createSheet(createSheetDTO);
@@ -28,6 +29,7 @@ export class SheetController {
   }
 
   @Public()
+  @ApiOperation({ summary: '更新询价单' })
   @Put(':id')
   async updateSheet(
     @Param('id') sheetid: string,
@@ -38,6 +40,7 @@ export class SheetController {
   }
 
   @Public()
+  @ApiOperation({ summary: '删除询价单' })
   @Delete(':id')
   async deleteSheet(@Param('id') sheetid: string): Promise<void> {
     await this.sheetservice.deleteSheet(sheetid);
@@ -45,6 +48,7 @@ export class SheetController {
   }
 
   @Public()
+  @ApiOperation({ summary: '查询全部询价单' })
   @Get()
   @ApiOkResponse({ description: '返回全部表单-列表', type: ReturnSheetDTO })
   async getAllSheet(): Promise<Sheet[]> {
@@ -52,6 +56,7 @@ export class SheetController {
   }
 
   @Public()
+  @ApiOperation({ summary: '查询符合条件的询价单' })
   @Get('select/:startpoint/:endpoint')
   @ApiOkResponse({ description: '返回相应条件表单-列表', type: ReturnSheetDTO })
   async selectSheet(
@@ -62,17 +67,19 @@ export class SheetController {
   }
 
   @Public()
+  @ApiOperation({ summary: '从ID查询询价单' })
   @Get(':sheetId')
-  @ApiOkResponse({ description: '返回对应sheetid的表单', type: ReturnSheetDTO })
+  @ApiOkResponse({ description: '返回ID对应的表单', type: ReturnSheetDTO })
   async getSheetById(@Param('sheetId') sheetid: string): Promise<Sheet> {
     const sheet = this.sheetservice.getSheetById(sheetid);
     return sheet;
   }
 
   @Public()
+  @ApiOperation({ summary: '查询货主的询价单' })
   @Get('list/:customerID')
   @ApiOkResponse({
-    description: '返回customerid对应的表单-列表',
+    description: '返回货主的表单-列表',
     type: ReturnSheetDTO,
   })
   async getSheetsByUser(
