@@ -11,11 +11,11 @@ import {
 import { CreateAnswerDTO } from './dto/CreateAnswer.dto';
 import { Answer } from './entity/answer.entity';
 import { AnswerService } from './answer.service';
-import { ApiOkResponse, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiCreatedResponse, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { AnswerDTO } from './dto/Answer.dto';
 import { Public } from 'src/decorators/public.decorator';
 
-@ApiTags('api/answer')
+@ApiTags('报价单管理')
 @Controller('api/answer')
 export class AnswerController {
   constructor(private readonly answerservice: AnswerService) {}
@@ -48,6 +48,7 @@ export class AnswerController {
   }
 
   @Public()
+  @ApiOperation({ summary: '创建报价单' })
   @ApiCreatedResponse({ description: '创建报价单成功' })
   @Post('create')
   async createAnswer(@Body() createAnswerDTO: CreateAnswerDTO): Promise<void> {
@@ -56,6 +57,7 @@ export class AnswerController {
   }
 
   @Public()
+  @ApiOperation({ summary: '修改报价单' })
   @ApiOkResponse({ description: '修改报价单成功' })
   @Put(':id')
   async updateAnswer(
@@ -67,6 +69,7 @@ export class AnswerController {
   }
 
   @Public()
+  @ApiOperation({ summary: '删除报价单' })
   @ApiOkResponse({ description: '删除报价单成功' })
   @Delete(':id')
   async deleteAnswer(@Param('id') answerid: string): Promise<void> {
@@ -75,6 +78,7 @@ export class AnswerController {
   }
 
   @Public()
+  @ApiOperation({ summary: '主键查询' })
   @ApiOkResponse({
     description: '返回报价单ID对应的报价单',
     type: AnswerDTO,
@@ -91,6 +95,7 @@ export class AnswerController {
   }
 
   @Public()
+  @ApiOperation({ summary: '查询该询价单的所有报价单' })
   @ApiOkResponse({
     description: '返回该询价单的所有报价单',
     type: AnswerDTO,
@@ -105,8 +110,9 @@ export class AnswerController {
   }
 
   @Public()
+  @ApiOperation({ summary: '查询该货代的所有报价单' })
   @ApiOkResponse({
-    description: '返回该货主的所有报价单',
+    description: '返回该货代的所有报价单',
     type: AnswerDTO,
     isArray: true,
   })

@@ -17,8 +17,9 @@ export class SheetService {
   constructor(
     @InjectRepository(Sheet)
     private readonly sheetRepository: Repository<Sheet>,
-    private userService: UserService
-  ) {}
+    private userService: UserService,
+  ) {
+  }
 
   async createSheet(createSheetDTO: CreateSheetDTO) {
     const sheet = new Sheet();
@@ -28,7 +29,7 @@ export class SheetService {
     }
     const customer = await this.userService.getUserById(
       userId,
-      UserRole.CUSTOMER
+      UserRole.CUSTOMER,
     );
     if (customer == null) {
       throw new BadRequestException('Unknown Customer');
@@ -66,6 +67,11 @@ export class SheetService {
 
   async deleteSheet(Sheetid: string) {
     const sheet = await this.sheetRepository.softDelete({ id: Sheetid });
+    if (!sheet) {
+      throw new BadRequestException();
+    } else {
+      throw new NotFoundException();
+    }
   }
 
   async findAll(): Promise<Sheet[]> {
@@ -94,7 +100,7 @@ export class SheetService {
   async getSheetsByUser(userID: string): Promise<Array<Sheet>> {
     const user = await this.userService.getUserById(userID, UserRole.CUSTOMER);
     if (user == null) {
-      throw new BadRequestException("Unknown User");
+      throw new BadRequestException('Unknown User');
     }
     const sheets = await this.sheetRepository.find({
       //relations: { customer: true },

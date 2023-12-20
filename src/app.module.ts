@@ -35,7 +35,8 @@ import { OrderModule } from './modules/order/order.module';
       database: process.env.DB_NAME,
       // 创建的 entity 需要 import 到这里
       entities: [Firm, Sheet, Answer, User, Ordert],
-      //synchronize: true,
+      synchronize: false,
+      logging: false
     }),
     AuthModule,
     UserModule,
