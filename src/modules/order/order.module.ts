@@ -17,5 +17,6 @@ import { UserModule } from '../user/user.module';
   ],
   controllers: [OrderController],
   providers: [OrderService, SheetService, AnswerService],
+  exports: [OrderService]
 })
 export class OrderModule {}
