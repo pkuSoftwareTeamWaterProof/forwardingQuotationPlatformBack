@@ -15,6 +15,7 @@ import { Sheet } from './modules/sheet/entity/sheet.entity';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './guard/auth.guard';
 import { OrderModule } from './modules/order/order.module';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -42,11 +43,21 @@ import { OrderModule } from './modules/order/order.module';
     SheetModule,
     AnswerModule,
     OrderModule,
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 10,
+      },
+    ]),
   ],
   providers: [
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
     },
   ],
 })
