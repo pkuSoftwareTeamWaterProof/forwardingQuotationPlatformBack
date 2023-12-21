@@ -3,6 +3,8 @@ import { HttpStatus, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 import { EntityManager } from 'typeorm';
+import { User } from 'src/modules/user/entity/user.entity';
+import { Sheet } from 'src/modules/sheet/entity/sheet.entity';
 
 async function clearDb(app: INestApplication): Promise<void> {
   const entityManager = app.get<EntityManager>(EntityManager);
@@ -67,6 +69,12 @@ describe('AppController (e2e)', () => {
     startdate: '2023-11-13',
     enddate: '2023-12-01',
     customerID: 'string',
+  };
+  const testanswertemp = {
+    price: 100,
+    remark: '要加钱',
+    Sheetid: '535',
+    forwarderID: 'string',
   };
 
   describe('user module', () => {
@@ -159,15 +167,31 @@ describe('AppController (e2e)', () => {
   });
 
   describe('sheet module', () => {
-    it('/api/sheet/create (POST)', async () => {
+    var customer: User;
+    var forwarder: User;
+
+    beforeEach(async () => {
       await request(app.getHttpServer())
         .post('/api/user/create')
         .send(testcustomer);
-      const user = (
-        await request(app.getHttpServer()).get('/api/user/getByName/laolee010126').send()
+      await request(app.getHttpServer())
+        .post('/api/user/create')
+        .send(testforwarder);
+      customer = (
+        await request(app.getHttpServer())
+          .get('/api/user/getByName/laolee010126')
+          .send()
       ).body;
+      forwarder = (
+        await request(app.getHttpServer())
+          .get('/api/user/getByName/waterking201030')
+          .send()
+      ).body;
+    });
+
+    it('/api/sheet/create (POST)', async () => {
       var sheet = Object.assign({}, testsheettemp);
-      sheet.customerID=user.id;
+      sheet.customerID = customer.id;
       await request(app.getHttpServer())
         .post('/api/sheet/create')
         .send(sheet)
@@ -175,14 +199,13 @@ describe('AppController (e2e)', () => {
     });
 
     it('/api/sheet/create (POST) unvalid customer', async () => {
-      await request(app.getHttpServer())
-        .post('/api/user/create')
-        .send(testforwarder);
       const user = (
-        await request(app.getHttpServer()).get('/api/user/getByName/waterking201030').send()
+        await request(app.getHttpServer())
+          .get('/api/user/getByName/waterking201030')
+          .send()
       ).body;
       var sheet = Object.assign({}, testsheettemp);
-      sheet.customerID=user.id;
+      sheet.customerID = forwarder.id;
       await request(app.getHttpServer())
         .post('/api/sheet/create')
         .send(sheet)
@@ -190,23 +213,47 @@ describe('AppController (e2e)', () => {
     });
 
     it('/api/sheet (GET)', async () => {
-      await request(app.getHttpServer())
-        .post('/api/user/create')
-        .send(testcustomer);
-      const user = (
-        await request(app.getHttpServer()).get('/api/user/getByName/laolee010126').send()
-      ).body;
       var sheet = Object.assign({}, testsheettemp);
-      sheet.customerID=user.id;
-      await request(app.getHttpServer())
-        .post('/api/sheet/create')
-        .send(sheet)
-      const res = await request(app.getHttpServer())
-        .get('/api/sheet')
-        .send();
+      sheet.customerID = customer.id;
+      await request(app.getHttpServer()).post('/api/sheet/create').send(sheet);
+      const res = await request(app.getHttpServer()).get('/api/sheet').send();
       expect(res.status).toBe(HttpStatus.OK);
       expect(res.body.length).toBe(1);
-      expect(res.body[0].startpoint).toBe("中国北京");
+      expect(res.body[0].startpoint).toBe('中国北京');
+    });
+
+    it('/api/sheet/{:sheetId} (GET)', async () => {
+      var sheetdto = Object.assign({}, testsheettemp);
+      sheetdto.customerID = customer.id;
+      await request(app.getHttpServer()).post('/api/sheet/create').send(sheetdto);
+      const res : Sheet[] = (await request(app.getHttpServer()).get('/api/sheet').send()).body;
+      var sheet = res[0];
+      const sheetres = await request(app.getHttpServer()).get('/api/sheet/'+sheet.id).send();
+      expect(sheetres.status).toBe(HttpStatus.OK);
+      expect(sheetres.body).toStrictEqual(sheet);
+    });
+
+    it('/api/sheet/{:sheetId} (GET) null', async () => {
+      const sheetres = await request(app.getHttpServer()).get('/api/sheet/0').send();
+      expect(sheetres.status).toBe(HttpStatus.BAD_REQUEST);
+    });
+
+    it('/api/sheet/list/{:customerId} (GET)', async () => {
+      var sheetdto = Object.assign({}, testsheettemp);
+      sheetdto.customerID = customer.id;
+      await request(app.getHttpServer()).post('/api/sheet/create').send(sheetdto);
+      const res : Sheet[] = (await request(app.getHttpServer()).get('/api/sheet').send()).body;
+      var sheet = res[0];
+      const sheetres = await request(app.getHttpServer()).get('/api/sheet/list/'+customer.id).send();
+      expect(sheetres.status).toBe(HttpStatus.OK);
+      expect(sheetres.body.length).toBe(1);
+      expect(sheetres.body[0]).toStrictEqual(sheet);
+    });
+
+    it('/api/sheet/list/{:customerId} (GET) invalid customer', async () => {
+      const sheetres = await request(app.getHttpServer()).get('/api/sheet/list/'+forwarder.id).send();
+      expect(sheetres.status).toBe(HttpStatus.BAD_REQUEST);
+      expect(sheetres.body.message).toBe("Unknown User");
     });
   });
 

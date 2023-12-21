@@ -14,6 +14,7 @@ import { SheetService } from './sheet.service';
 import { ApiTags, ApiOkResponse } from '@nestjs/swagger';
 import { ReturnSheetDTO } from './dto/ReturnSheet.dto';
 import { Public } from '../../decorators/public.decorator';
+import { BadRequestException } from '@nestjs/common';
 
 @ApiTags('api/sheet')
 @Controller('api/sheet')
@@ -65,7 +66,10 @@ export class SheetController {
   @Get(':sheetId')
   @ApiOkResponse({ description: '返回对应sheetid的表单', type: ReturnSheetDTO })
   async getSheetById(@Param('sheetId') sheetid: string): Promise<Sheet> {
-    const sheet = this.sheetservice.getSheetById(sheetid);
+    const sheet = await this.sheetservice.getSheetById(sheetid);
+    if (sheet === null) {
+      throw new BadRequestException('Unknown Sheet ID');
+    }
     return sheet;
   }
 

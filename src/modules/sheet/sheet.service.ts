@@ -85,9 +85,6 @@ export class SheetService {
     const sheet = await this.sheetRepository.findOne({
       where: { id: Sheetid },
     });
-    if (sheet === null) {
-      throw new BadRequestException('Unknown Sheet ID');
-    }
     return sheet;
   }
 
