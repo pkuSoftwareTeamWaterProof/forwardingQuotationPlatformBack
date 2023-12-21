@@ -5,8 +5,6 @@ import {
   Param,
   Post,
   Delete,
-  Put,
-  Query,
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
@@ -16,7 +14,6 @@ import { Public } from 'src/decorators/public.decorator';
 import { CreateEvaluationDTO } from './dto/CreateEvaluation.dto';
 import { ReturnEvaluationDTO } from './dto/ReturnEvaluation.dto';
 import { Evaluation } from './entity/evaluation.entity';
-import { NotFoundError } from 'rxjs';
 
 @ApiTags('评分管理')
 @Controller('api/evaluation')
