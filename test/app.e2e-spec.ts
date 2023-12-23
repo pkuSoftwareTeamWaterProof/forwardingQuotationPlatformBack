@@ -334,6 +334,92 @@ describe('AppController (e2e)', () => {
       expect(res.status).toBe(HttpStatus.BAD_REQUEST);
       expect(res.body.message).toBe('Unknown Sheet');
     });
+
+    it('/api/answer/list/{:forwarderId}', async () => {
+      var dto = Object.assign({}, testanswertemp);
+      dto.forwarderID = forwarder.id;
+      dto.Sheetid = sheet.id;
+      await request(app.getHttpServer()).post('/api/answer/create').send(dto);
+      const res = await request(app.getHttpServer())
+        .get('/api/answer/list/' + forwarder.id)
+        .send();
+      expect(res.status).toBe(200);
+      expect(res.body.length).toBe(1);
+      expect(res.body[0].forwarderID).toBe(forwarder.id);
+    });
+
+    it('/api/answer/list/{:forwarderId} unvalid user', async () => {
+      var dto = Object.assign({}, testanswertemp);
+      dto.forwarderID = forwarder.id;
+      dto.Sheetid = sheet.id;
+      await request(app.getHttpServer()).post('/api/answer/create').send(dto);
+      const res = await request(app.getHttpServer())
+        .get('/api/answer/list/0')
+        .send();
+      expect(res.status).toBe(400);
+    });
+
+    it('/api/answer/sheet/{:sheetId}', async () => {
+      var dto = Object.assign({}, testanswertemp);
+      dto.forwarderID = forwarder.id;
+      dto.Sheetid = sheet.id;
+      await request(app.getHttpServer()).post('/api/answer/create').send(dto);
+      const answers = (
+        await request(app.getHttpServer())
+          .get('/api/answer/list/' + forwarder.id)
+          .send()
+      ).body;
+      const res = await request(app.getHttpServer())
+        .get('/api/answer/sheet/' + sheet.id)
+        .send();
+      expect(res.status).toBe(200);
+      expect(res.body.length).toBe(1);
+      expect(res.body[0]).toStrictEqual(answers[0]);
+    });
+
+    it('/api/answer/sheet/{:sheetId} unvalid sheet', async () => {
+      var dto = Object.assign({}, testanswertemp);
+      dto.forwarderID = forwarder.id;
+      dto.Sheetid = sheet.id;
+      await request(app.getHttpServer()).post('/api/answer/create').send(dto);
+      const res = await request(app.getHttpServer())
+        .get('/api/answer/sheet/0')
+        .send();
+      expect(res.status).toBe(400);
+    });
+
+    it('/api/answer/{:answerId}', async () => {
+      var dto = Object.assign({}, testanswertemp);
+      dto.forwarderID = forwarder.id;
+      dto.Sheetid = sheet.id;
+      await request(app.getHttpServer()).post('/api/answer/create').send(dto);
+      const answer = (
+        await request(app.getHttpServer())
+          .get('/api/answer/list/' + forwarder.id)
+          .send()
+      ).body[0];
+      const res = await request(app.getHttpServer())
+        .get('/api/answer/' + answer.id)
+        .send();
+      expect(res.status).toBe(200);
+      expect(res.body).toStrictEqual(answer);
+    });
+
+    it('/api/answer/{:answerId}', async () => {
+      var dto = Object.assign({}, testanswertemp);
+      dto.forwarderID = forwarder.id;
+      dto.Sheetid = sheet.id;
+      await request(app.getHttpServer()).post('/api/answer/create').send(dto);
+      const answer = (
+        await request(app.getHttpServer())
+          .get('/api/answer/list/' + forwarder.id)
+          .send()
+      ).body[0];
+      const res = await request(app.getHttpServer())
+        .get('/api/answer/0')
+        .send();
+      expect(res.status).toBe(404);
+    });
   });
 
   afterEach(async () => {
