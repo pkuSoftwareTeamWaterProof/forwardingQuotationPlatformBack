@@ -5,6 +5,7 @@ import { AppModule } from './../src/app.module';
 import { EntityManager } from 'typeorm';
 import { User } from 'src/modules/user/entity/user.entity';
 import { Sheet } from 'src/modules/sheet/entity/sheet.entity';
+import { Answer } from 'src/modules/answer/entity/answer.entity';
 
 async function clearDb(app: INestApplication): Promise<void> {
   const entityManager = app.get<EntityManager>(EntityManager);
@@ -75,6 +76,11 @@ describe('AppController (e2e)', () => {
     remark: '要加钱',
     Sheetid: 'string',
     forwarderID: 'string',
+  };
+  const testordertemp = {
+    sheetid: 'string',
+    answerid: 'string',
+    context: '成交',
   };
 
   describe('user module', () => {
@@ -343,7 +349,7 @@ describe('AppController (e2e)', () => {
       const res = await request(app.getHttpServer())
         .get('/api/answer/list/' + forwarder.id)
         .send();
-      expect(res.status).toBe(200);
+      expect(res.status).toBe(HttpStatus.OK);
       expect(res.body.length).toBe(1);
       expect(res.body[0].forwarderID).toBe(forwarder.id);
     });
@@ -356,7 +362,7 @@ describe('AppController (e2e)', () => {
       const res = await request(app.getHttpServer())
         .get('/api/answer/list/0')
         .send();
-      expect(res.status).toBe(400);
+      expect(res.status).toBe(HttpStatus.BAD_REQUEST);
     });
 
     it('/api/answer/sheet/{:sheetId}', async () => {
@@ -372,7 +378,7 @@ describe('AppController (e2e)', () => {
       const res = await request(app.getHttpServer())
         .get('/api/answer/sheet/' + sheet.id)
         .send();
-      expect(res.status).toBe(200);
+      expect(res.status).toBe(HttpStatus.OK);
       expect(res.body.length).toBe(1);
       expect(res.body[0]).toStrictEqual(answers[0]);
     });
@@ -385,7 +391,7 @@ describe('AppController (e2e)', () => {
       const res = await request(app.getHttpServer())
         .get('/api/answer/sheet/0')
         .send();
-      expect(res.status).toBe(400);
+      expect(res.status).toBe(HttpStatus.BAD_REQUEST);
     });
 
     it('/api/answer/{:answerId}', async () => {
@@ -401,7 +407,7 @@ describe('AppController (e2e)', () => {
       const res = await request(app.getHttpServer())
         .get('/api/answer/' + answer.id)
         .send();
-      expect(res.status).toBe(200);
+      expect(res.status).toBe(HttpStatus.OK);
       expect(res.body).toStrictEqual(answer);
     });
 
@@ -419,6 +425,106 @@ describe('AppController (e2e)', () => {
         .get('/api/answer/0')
         .send();
       expect(res.status).toBe(404);
+    });
+  });
+
+  describe('order module', () => {
+    var customer: User;
+    var forwarder: User;
+    var sheet: Sheet;
+    var answer: Answer;
+    beforeEach(async () => {
+      await request(app.getHttpServer())
+        .post('/api/user/create')
+        .send(testcustomer);
+      await request(app.getHttpServer())
+        .post('/api/user/create')
+        .send(testforwarder);
+      customer = (
+        await request(app.getHttpServer())
+          .get('/api/user/getByName/laolee010126')
+          .send()
+      ).body;
+      forwarder = (
+        await request(app.getHttpServer())
+          .get('/api/user/getByName/waterking201030')
+          .send()
+      ).body;
+      var sheetdto = Object.assign({}, testsheettemp);
+      sheetdto.customerID = customer.id;
+      await request(app.getHttpServer())
+        .post('/api/sheet/create')
+        .send(sheetdto);
+      sheet = (await request(app.getHttpServer()).get('/api/sheet').send())
+        .body[0];
+      var dto = Object.assign({}, testanswertemp);
+      dto.forwarderID = forwarder.id;
+      dto.Sheetid = sheet.id;
+      await request(app.getHttpServer()).post('/api/answer/create').send(dto);
+      answer = (
+        await request(app.getHttpServer())
+          .get('/api/answer/list/' + forwarder.id)
+          .send()
+      ).body[0];
+    });
+
+    it('/api/order/create (POST)', async () => {
+      var dto = Object.assign({}, testordertemp);
+      dto.sheetid = sheet.id;
+      dto.answerid = answer.id;
+      const res = await request(app.getHttpServer())
+        .post('/api/order/create')
+        .send(dto);
+      expect(res.status).toBe(HttpStatus.CREATED);
+    });
+
+    it('/api/order/create (POST) unvalid sheet', async () => {
+      var dto = Object.assign({}, testordertemp);
+      dto.sheetid = '0';
+      dto.answerid = answer.id;
+      const res = await request(app.getHttpServer())
+        .post('/api/order/create')
+        .send(dto);
+      expect(res.status).toBe(HttpStatus.BAD_REQUEST);
+    });
+
+    it('/api/order/create (POST) unvalid answer', async () => {
+      var dto = Object.assign({}, testordertemp);
+      dto.sheetid = sheet.id;
+      dto.answerid = '0';
+      const res = await request(app.getHttpServer())
+        .post('/api/order/create')
+        .send(dto);
+      expect(res.status).toBe(HttpStatus.BAD_REQUEST);
+    });
+
+    it('/api/order/answerid/{:answerID} (GET)', async () => {
+      var dto = Object.assign({}, testordertemp);
+      dto.sheetid = sheet.id;
+      dto.answerid = answer.id;
+      await request(app.getHttpServer())
+        .post('/api/order/create')
+        .send(dto);
+      const res = await request(app.getHttpServer())
+      .get('/api/order/sheetid/'+sheet.id)
+      .send();
+      expect(res.status).toBe(HttpStatus.OK);
+      expect(res.body.sheetId).toBe(sheet.id);
+    });
+
+    it('/api/order/answerid/{:answerID} (GET) null', async () => {
+      const res = await request(app.getHttpServer())
+      .get('/api/order/sheetid/'+sheet.id)
+      .send();
+      expect(res.status).toBe(HttpStatus.OK);
+      expect(res.body).toStrictEqual({});
+    });
+
+    it('/api/order/answerid/{:answerID} (GET) invalid answer', async () => {
+      const res = await request(app.getHttpServer())
+      .get('/api/order/sheetid/0')
+      .send();
+      expect(res.status).toBe(HttpStatus.BAD_REQUEST);
     });
   });
 

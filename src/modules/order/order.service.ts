@@ -9,8 +9,8 @@ import { Answer } from '../answer/entity/answer.entity';
 @Injectable()
 export class OrderService {
   constructor(
-    private findsheet: SheetService,
-    private findanswer: AnswerService,
+    public findsheet: SheetService,
+    public findanswer: AnswerService,
     @InjectRepository(Ordert)
     private readonly orderRepository: Repository<Ordert>
   ) {}
@@ -19,10 +19,16 @@ export class OrderService {
     const order = new Ordert();
     order.context = createOrderDTO.context;
     const sheet = await this.findsheet.getSheetById(createOrderDTO.sheetid);
+    if(sheet === null){
+      throw new BadRequestException("Unknown Sheet");
+    }
     //await this.findsheet.deleteSheet(createOrderDTO.sheetid);
     const answer = await this.findanswer.getAnswerByAnswerId(
       createOrderDTO.answerid
     );
+    if(answer === null){
+      throw new BadRequestException("Unknown Answer");
+    }
     //await this.findanswer.deleteAnswer(createOrderDTO.answerid);
     order.sheet = sheet;
     order.answer = answer;
