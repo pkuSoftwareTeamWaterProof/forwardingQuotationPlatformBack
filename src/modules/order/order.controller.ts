@@ -1,10 +1,10 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CreateOrderDTO } from './dto/Createorder.dto';
 import { ReturnOrderDTO } from './dto/Returnorder.dto';
 import { Ordert } from './entity/order.entity';
 import { OrderService } from './order.service';
 import { ApiTags, ApiOkResponse } from '@nestjs/swagger';
-import { Public } from 'src/decorators/public.decorator';
+import { Public } from '../../decorators/public.decorator';
 
 @ApiTags('api/order')
 @Controller('api/order')
@@ -65,6 +65,13 @@ export class OrderController {
     @Param('sheetID') sheetid: string
   ): Promise<ReturnOrderDTO> {
     const order = await this.orderservice.getOrderBysheetId(sheetid);
+    if(order === null){
+      const sheet = await this.orderservice.findsheet.getSheetById(sheetid);
+      if(sheet === null){
+        throw new BadRequestException("Unknown sheet");
+      }
+      return null;
+    }
     return this.ordertToDTO(order);
   }
 
@@ -91,6 +98,13 @@ export class OrderController {
     @Param('answerID') answerid: string
   ): Promise<ReturnOrderDTO> {
     const order = await this.orderservice.getOrderByanswerId(answerid);
+    if(order === null){
+      const answer = await this.orderservice.findanswer.getAnswerByAnswerId(answerid);
+      if(answer === null){
+        throw new BadRequestException("Unknown answer");
+      }
+      return null;
+    }
     return this.ordertToDTO(order);
   }
 

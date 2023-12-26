@@ -13,7 +13,8 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { Public } from 'src/decorators/public.decorator';
+import { Public } from '../../decorators/public.decorator';
+import { NotFoundException } from '@nestjs/common';
 
 @ApiTags('用户管理')
 @Controller('api/user')
@@ -37,7 +38,7 @@ export class UserController {
   @ApiOkResponse({ description: '查询成功', type: UserDTO })
   @ApiNotFoundResponse({ description: '查询失败' })
   @Get('getByID/:userId')
-  async getUserById(@Param('userId') userId: string): Promise<User> {
+  async getUserById(@Param('userId') userId: string): Promise<User|never> {
     const user = await this.userService.getUserById(userId);
     if (!user) throw new NotFoundException('没有找到用户信息');
     return user;
@@ -47,7 +48,7 @@ export class UserController {
   @ApiBearerAuth()
   @ApiOperation({ summary: '用户名查询' })
   @Get('getByName/:userName')
-  async getUserByName(@Param('userName') userName: string): Promise<User> {
+  async getUserByName(@Param('userName') userName: string): Promise<User|never> {
     const user = await this.userService.getUserByName(userName);
     if (user == null) throw new NotFoundException('没有找到用户信息');
     return user;
@@ -59,7 +60,7 @@ export class UserController {
   @ApiOperation({ summary: '查询自己的userData' })
   @ApiOkResponse({})
   @Get('me')
-  async getMyUserData(@Param('userId') userId: string): Promise<User> {
+  async getMyUserData(@Param('userId') userId: string): Promise<User|never> {
     const user = await this.userService.getUserById(userId);
     if (user === null) throw new BadRequestException('Unknown User');
     return user;

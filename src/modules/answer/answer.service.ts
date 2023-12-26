@@ -60,7 +60,9 @@ export class AnswerService {
 
   async getAnswerBySheetId(sheetid: string): Promise<Array<Answer>> {
     const sheet = await this.findsheet.getSheetById(sheetid);
-
+    if (sheet == null) {
+      throw new BadRequestException('Unknown Sheet');
+    }
     return this.answerRepository.find({
       relations: ['sheet', 'forwarder'],
       where: { sheet: { id: sheetid } },

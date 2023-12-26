@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 
 import { Sheet } from '../../sheet/entity/sheet.entity';
-import { User } from 'src/modules/user/entity/user.entity';
+import { User } from '../../user/entity/user.entity';
 @Entity()
 export class Answer {
   @PrimaryGeneratedColumn('uuid')

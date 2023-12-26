@@ -83,7 +83,7 @@ export class UserService {
     return user;
   }
 
-  async getAllFirms(): Promise<Array<Firm>> {
+  async getAllFirms(): Promise<Array<Firm | null>> {
     const firms = await this.firmRepository.find();
     return firms;
   }

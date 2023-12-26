@@ -13,7 +13,8 @@ import { Sheet } from './entity/sheet.entity';
 import { SheetService } from './sheet.service';
 import { ApiTags, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { ReturnSheetDTO } from './dto/ReturnSheet.dto';
-import { Public } from 'src/decorators/public.decorator';
+import { Public } from '../../decorators/public.decorator';
+import { BadRequestException } from '@nestjs/common';
 
 @ApiTags('询价单管理')
 @Controller('api/sheet')
@@ -71,7 +72,10 @@ export class SheetController {
   @Get(':sheetId')
   @ApiOkResponse({ description: '返回ID对应的表单', type: ReturnSheetDTO })
   async getSheetById(@Param('sheetId') sheetid: string): Promise<Sheet> {
-    const sheet = this.sheetservice.getSheetById(sheetid);
+    const sheet = await this.sheetservice.getSheetById(sheetid);
+    if (sheet === null) {
+      throw new BadRequestException('Unknown Sheet ID');
+    }
     return sheet;
   }
 
