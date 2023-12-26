@@ -1,4 +1,11 @@
-import { BadRequestException, Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { CreateOrderDTO } from './dto/Createorder.dto';
 import { ReturnOrderDTO } from './dto/Returnorder.dto';
 import { Ordert } from './entity/order.entity';
@@ -64,11 +71,11 @@ export class OrderController {
   async getOrderBysheetId(
     @Param('sheetID') sheetid: string
   ): Promise<ReturnOrderDTO> {
-    const order = await this.orderservice.getOrderBysheetId(sheetid);
-    if(order === null){
+    const order = await this.orderservice.getOrderBySheetId(sheetid);
+    if (order === null) {
       const sheet = await this.orderservice.findsheet.getSheetById(sheetid);
-      if(sheet === null){
-        throw new BadRequestException("Unknown sheet");
+      if (sheet === null) {
+        throw new BadRequestException('Unknown sheet');
       }
       return null;
     }
@@ -98,10 +105,12 @@ export class OrderController {
     @Param('answerID') answerid: string
   ): Promise<ReturnOrderDTO> {
     const order = await this.orderservice.getOrderByanswerId(answerid);
-    if(order === null){
-      const answer = await this.orderservice.findanswer.getAnswerByAnswerId(answerid);
-      if(answer === null){
-        throw new BadRequestException("Unknown answer");
+    if (order === null) {
+      const answer = await this.orderservice.findanswer.getAnswerByAnswerId(
+        answerid
+      );
+      if (answer === null) {
+        throw new BadRequestException('Unknown answer');
       }
       return null;
     }
@@ -117,7 +126,7 @@ export class OrderController {
   async getOrderByforwarderId(
     @Param('forwarderID') forwardid: string
   ): Promise<Array<ReturnOrderDTO>> {
-    const order = await this.orderservice.getOrderByforwarderId(forwardid);
+    const order = await this.orderservice.getOrderByForwarderId(forwardid);
     return order.map(this.ordertToDTO);
   }
 }

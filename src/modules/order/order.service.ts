@@ -19,18 +19,18 @@ export class OrderService {
     const order = new Ordert();
     order.context = createOrderDTO.context;
     const sheet = await this.findsheet.getSheetById(createOrderDTO.sheetid);
-    if(sheet === null){
-      throw new BadRequestException("Unknown sheet");
+    if (sheet === null) {
+      throw new BadRequestException('Unknown sheet');
     }
     //await this.findsheet.deleteSheet(createOrderDTO.sheetid);
     const answer = await this.findanswer.getAnswerByAnswerId(
       createOrderDTO.answerid
     );
-    if(answer === null){
-      throw new BadRequestException("Unknown answer");
+    if (answer === null) {
+      throw new BadRequestException('Unknown answer');
     }
-    if(JSON.stringify(answer.sheet) !== JSON.stringify(sheet)){
-      throw new BadRequestException("Unpaired answer and sheet");
+    if (JSON.stringify(answer.sheet) !== JSON.stringify(sheet)) {
+      throw new BadRequestException('Unpaired answer and sheet');
     }
     //await this.findanswer.deleteAnswer(createOrderDTO.answerid);
     order.sheet = sheet;
@@ -61,13 +61,15 @@ export class OrderService {
     return orders;
   }
 
-  async getOrderByforwarderId(cusromerid: string): Promise<Array<Ordert>> {
-    const answers = await this.findanswer.getAnswersByUser(cusromerid);
+  async getOrderByForwarderId(forwarderId: string): Promise<Array<Ordert>> {
+    console.log(forwarderId);
+    const answers = await this.findanswer.getAnswersByUser(forwarderId);
     var orders: Array<Ordert> = new Array();
     for (let answer of answers) {
+      console.log(answer);
       const order = await this.orderRepository.findOne({
-        relations: ['sheet', 'answer', 'evaluation'],
-        where: { answer: { id: answer.id } },
+        relations: ['answer'],
+        where: { answer : answer },
       });
       if (order) {
         orders.push(order);
@@ -76,7 +78,7 @@ export class OrderService {
     return orders;
   }
 
-  async getOrderBysheetId(Sheetid: string): Promise<Ordert> {
+  async getOrderBySheetId(Sheetid: string): Promise<Ordert> {
     //const sheet = await this.findsheet.getSheetById(Sheetid);
     const order = await this.orderRepository.findOne({
       relations: ['sheet', 'answer', 'evaluation'],

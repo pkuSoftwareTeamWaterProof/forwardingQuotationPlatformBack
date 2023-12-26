@@ -26,8 +26,8 @@ export class EvaluationService {
     return { success: true, cause: evaluation };
   }
 
-  async deleteEvaluation(evalId: string){
-    const entry = await this.evalRepository.softDelete({id : evalId});
+  async deleteEvaluation(evalId: string) {
+    const entry = await this.evalRepository.softDelete({ id: evalId });
   }
 
   async getEvaluationById(evalId: string): Promise<Evaluation> {
@@ -40,27 +40,33 @@ export class EvaluationService {
 
   async getEvaluationByOrderId(orderId: string): Promise<Evaluation> {
     const order = await this.orderService.getOrderById(orderId);
-    if(order === null) return undefined;
+    if (order === null) return undefined;
     return order.evaluation;
   }
 
-  async getEvaluationsByCustomerId(customerId: string): Promise<Array<Evaluation>> {
+  async getEvaluationsByCustomerId(
+    customerId: string
+  ): Promise<Array<Evaluation>> {
     const orders = await this.orderService.getOrderBycustomerId(customerId);
-    return orders.map(order=>order.evaluation);
+    return orders.map((order) => order.evaluation);
   }
 
-  async getEvaluationsByForwarderId(forwarderId: string): Promise<Array<Evaluation>> {
-    const orders = await this.orderService.getOrderByforwarderId(forwarderId);
-    return orders.map(order=>order.evaluation);
+  async getEvaluationsByForwarderId(
+    forwarderId: string
+  ): Promise<Array<Evaluation>> {
+    const orders = await this.orderService.getOrderByForwarderId(forwarderId);
+    return orders.map((order) => order.evaluation);
   }
 
-  async getAvgEvalOfForwarder(forwarderId: string): Promise<number|null> {
+  async getAvgEvalOfForwarder(forwarderId: string): Promise<number | null> {
     const evals = await this.getEvaluationsByForwarderId(forwarderId);
-    if(evals.length === 0){
-        return null;
+    if (evals.length === 0) {
+      return null;
     }
     let sum = 0;
-    evals.forEach(entry => {sum += entry.score});
-    return sum/evals.length;
+    evals.forEach((entry) => {
+      sum += entry.score;
+    });
+    return sum / evals.length;
   }
 }

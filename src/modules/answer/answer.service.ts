@@ -74,10 +74,10 @@ export class AnswerService {
     if (user == null) {
       throw new BadRequestException('Unknown User');
     }
-    const sheets = await this.answerRepository.find({
+    const answers = await this.answerRepository.find({
       relations: ['sheet', 'forwarder'],
       where: { forwarder: { id: userID } },
     });
-    return sheets;
+    return answers;
   }
 }
