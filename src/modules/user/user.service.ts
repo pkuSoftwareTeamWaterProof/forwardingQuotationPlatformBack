@@ -55,6 +55,10 @@ export class UserService {
     return firm;
   }
 
+  async getAllUsers(): Promise<Array<User>> {
+    return await this.userRepository.find();
+  }
+
   async getUserById(
     userId: string,
     userRole: UserRole | undefined = undefined
