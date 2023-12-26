@@ -95,7 +95,7 @@ export class SheetService {
       throw new BadRequestException('Unknown User');
     }
     const sheets = await this.sheetRepository.find({
-      //relations: { customer: true },
+      relations: { customer: true },
       where: { customer: { id: userID } },
     });
     return sheets;

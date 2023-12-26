@@ -50,12 +50,12 @@ export class OrderService {
     const sheets = await this.findsheet.getSheetsByUser(cusromerid);
     var orders: Array<Ordert> = new Array();
     for (let sheet of sheets) {
-      const order = await this.orderRepository.findOne({
-        relations: ['sheet', 'answer', 'evaluation'],
-        where: { sheet: { id: sheet.id } },
+      const order = await this.orderRepository.find({
+        relations:['sheet','answer','evaluation'],
+        where: { sheet: {id:sheet.id} },
       });
       if (order) {
-        orders.push(order);
+        orders.push(...order);
       }
     }
     return orders;
@@ -65,12 +65,12 @@ export class OrderService {
     const answers = await this.findanswer.getAnswersByUser(forwarderId);
     var orders: Array<Ordert> = new Array();
     for (let answer of answers) {
-      const order = await this.orderRepository.findOne({
-        relations: ['answer'],
-        where: { answer : answer },
+      const order = await this.orderRepository.find({
+        relations: ['sheet','answer','evaluation'],
+        where: { answer: {id:answer.id} },
       });
       if (order) {
-        orders.push(order);
+        orders.push(...order);
       }
     }
     return orders;
@@ -79,7 +79,7 @@ export class OrderService {
   async getOrderBySheetId(Sheetid: string): Promise<Ordert> {
     //const sheet = await this.findsheet.getSheetById(Sheetid);
     const order = await this.orderRepository.findOne({
-      relations: ['sheet', 'answer', 'evaluation'],
+      relations: ['sheet','answer','evaluation'],
       where: { sheet: { id: Sheetid } },
     });
     return order;
@@ -88,7 +88,7 @@ export class OrderService {
   async getOrderByanswerId(Answerid: string): Promise<Ordert> {
     //const answer = await this.findanswer.getAnswerByAnswerId(Answerid);
     const order = await this.orderRepository.findOne({
-      relations: ['sheet', 'answer', 'evaluation'],
+      relations: ['sheet','answer','evaluation'],
       where: { answer: { id: Answerid } },
     });
     return order;

@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -14,6 +15,7 @@ export class Evaluation {
   id: string;
 
   @OneToOne((type) => Ordert, (order) => order.evaluation)
+  @JoinColumn()
   order: Ordert;
 
   @Column()

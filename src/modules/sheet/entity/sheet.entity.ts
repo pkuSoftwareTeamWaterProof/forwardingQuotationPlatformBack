@@ -7,10 +7,12 @@ import {
   OneToMany,
   ManyToOne,
   DeleteDateColumn,
+  OneToOne,
 } from 'typeorm';
 
 import { Answer } from '../../answer/entity/answer.entity';
 import { User } from '../../user/entity/user.entity';
+import { Ordert } from 'src/modules/order/entity/order.entity';
 
 @Entity()
 export class Sheet {
@@ -44,6 +46,9 @@ export class Sheet {
   @Column()
   enddate: string;
 
+  @OneToOne(() => Ordert, (order) => order.sheet)
+  ordert: Ordert | null;
+
   @OneToMany(() => Answer, (answer) => answer.sheet)
   answer: Answer[];
 
@@ -59,11 +64,11 @@ export class Sheet {
   })
   updatedAt: Date | undefined;
 
-  @DeleteDateColumn({
+  /*@DeleteDateColumn({
     type: 'timestamp',
     name: 'DeleteDate',
   })
-  deletedAt: Date | undefined;
+  deletedAt: Date | undefined;*/
 
   @ManyToOne((type) => User, (user) => user.sheets)
   customer: User;

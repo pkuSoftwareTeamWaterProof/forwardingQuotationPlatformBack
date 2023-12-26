@@ -19,11 +19,11 @@ export class Ordert {
   @Column()
   context: string;
 
-  @OneToOne(() => Sheet)
+  @OneToOne(() => Sheet, (sheet) => sheet.ordert)
   @JoinColumn()
   sheet: Sheet;
 
-  @OneToOne(() => Answer)
+  @OneToOne(() => Answer, (answer) => answer.ordert)
   @JoinColumn()
   answer: Answer;
 

@@ -55,7 +55,7 @@ export class EvaluationService {
     forwarderId: string
   ): Promise<Array<Evaluation>> {
     const orders = await this.orderService.getOrderByForwarderId(forwarderId);
-    return orders.map((order) => order.evaluation);
+    return orders.map((order) => order.evaluation).filter(score => !(score === null));
   }
 
   async getAvgEvalOfForwarder(forwarderId: string): Promise<number | null> {
