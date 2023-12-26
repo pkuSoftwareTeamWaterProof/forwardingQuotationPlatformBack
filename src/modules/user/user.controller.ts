@@ -14,7 +14,6 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Public } from '../../decorators/public.decorator';
-import { NotFoundException } from '@nestjs/common';
 
 @ApiTags('用户管理')
 @Controller('api/user')
