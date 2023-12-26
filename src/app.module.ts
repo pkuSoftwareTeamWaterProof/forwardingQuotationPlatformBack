@@ -15,6 +15,8 @@ import { Sheet } from './modules/sheet/entity/sheet.entity';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './guard/auth.guard';
 import { OrderModule } from './modules/order/order.module';
+import { EvaluationModule } from './modules/evaluation/evaluation.module';
+import { Evaluation } from './modules/evaluation/entity/evaluation.entity';
 
 @Module({
   imports: [
@@ -34,15 +36,16 @@ import { OrderModule } from './modules/order/order.module';
       // 需要创建一个 ‘forwardingQuotationPlatform’ schema
       database: process.env.DB_NAME,
       // 创建的 entity 需要 import 到这里
-      entities: [Firm, Sheet, Answer, User, Ordert],
+      entities: [Firm, Sheet, Answer, User, Ordert, Evaluation],
       synchronize: false,
-      logging: false
+      logging: false,
     }),
     AuthModule,
     UserModule,
     SheetModule,
     AnswerModule,
     OrderModule,
+    EvaluationModule,
   ],
   providers: [
     {

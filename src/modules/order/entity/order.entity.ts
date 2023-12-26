@@ -10,6 +10,7 @@ import {
 
 import { Sheet } from '../../sheet/entity/sheet.entity';
 import { Answer } from '../../answer/entity/answer.entity';
+import { Evaluation } from 'src/modules/evaluation/entity/evaluation.entity';
 @Entity()
 export class Ordert {
   @PrimaryGeneratedColumn('uuid')
@@ -37,4 +38,7 @@ export class Ordert {
     name: 'UpdateDate',
   })
   updatedAt: Date | undefined;
+
+  @OneToOne((type) => Evaluation, (evaluation) => evaluation.order)
+  evaluation: Evaluation | null;
 }
