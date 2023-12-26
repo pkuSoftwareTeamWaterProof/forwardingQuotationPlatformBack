@@ -10,8 +10,6 @@ export class AuthService {
   ) {}
 
   async signIn(username: string, pass: string): Promise<any> {
-    console.log(username);
-    console.log(pass);
 
     const user = await this.userService.getUserByName(username);
 

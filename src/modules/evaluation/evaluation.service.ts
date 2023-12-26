@@ -54,10 +54,10 @@ export class EvaluationService {
     return orders.map(order=>order.evaluation);
   }
 
-  async getAvgEvalOfForwarder(forwarderId: string): Promise<number> {
+  async getAvgEvalOfForwarder(forwarderId: string): Promise<number|null> {
     const evals = await this.getEvaluationsByForwarderId(forwarderId);
     if(evals.length === 0){
-        return NaN;
+        return null;
     }
     let sum = 0;
     evals.forEach(entry => {sum += entry.score});

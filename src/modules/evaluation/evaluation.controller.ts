@@ -14,6 +14,7 @@ import { Public } from 'src/decorators/public.decorator';
 import { CreateEvaluationDTO } from './dto/CreateEvaluation.dto';
 import { ReturnEvaluationDTO } from './dto/ReturnEvaluation.dto';
 import { Evaluation } from './entity/evaluation.entity';
+import { ReturnAvgEvalDTO } from './dto/ReturnAvgEval.dto';
 
 @ApiTags('评分管理')
 @Controller('api/evaluation')
@@ -97,10 +98,10 @@ export class EvaluationController {
   @Public()
   @ApiOperation({ summary: '从货代查询平均分' })
   @Get('forwarder_score/:id')
-  @ApiOkResponse({ description: '返回相应评价平均分', type: 'number' })
+  @ApiOkResponse({ description: '返回相应评价平均分', type: ReturnAvgEvalDTO })
   async getAvgEvalOfForwarder(
     @Param('id') forwarderId: string
-  ): Promise<number> {
-    return await this.service.getAvgEvalOfForwarder(forwarderId);
+  ): Promise<ReturnAvgEvalDTO> {
+    return {score:await this.service.getAvgEvalOfForwarder(forwarderId)};
   }
 }
