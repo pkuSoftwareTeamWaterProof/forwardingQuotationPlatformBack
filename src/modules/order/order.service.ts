@@ -62,11 +62,9 @@ export class OrderService {
   }
 
   async getOrderByForwarderId(forwarderId: string): Promise<Array<Ordert>> {
-    console.log(forwarderId);
     const answers = await this.findanswer.getAnswersByUser(forwarderId);
     var orders: Array<Ordert> = new Array();
     for (let answer of answers) {
-      console.log(answer);
       const order = await this.orderRepository.findOne({
         relations: ['answer'],
         where: { answer : answer },
