@@ -20,14 +20,17 @@ export class OrderService {
     order.context = createOrderDTO.context;
     const sheet = await this.findsheet.getSheetById(createOrderDTO.sheetid);
     if(sheet === null){
-      throw new BadRequestException("Unknown Sheet");
+      throw new BadRequestException("Unknown sheet");
     }
     //await this.findsheet.deleteSheet(createOrderDTO.sheetid);
     const answer = await this.findanswer.getAnswerByAnswerId(
       createOrderDTO.answerid
     );
     if(answer === null){
-      throw new BadRequestException("Unknown Answer");
+      throw new BadRequestException("Unknown answer");
+    }
+    if(JSON.stringify(answer.sheet) !== JSON.stringify(sheet)){
+      throw new BadRequestException("Unpaired answer and sheet");
     }
     //await this.findanswer.deleteAnswer(createOrderDTO.answerid);
     order.sheet = sheet;

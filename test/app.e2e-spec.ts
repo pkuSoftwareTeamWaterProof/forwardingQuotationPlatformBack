@@ -6,6 +6,7 @@ import { EntityManager } from 'typeorm';
 import { User } from 'src/modules/user/entity/user.entity';
 import { Sheet } from 'src/modules/sheet/entity/sheet.entity';
 import { Answer } from 'src/modules/answer/entity/answer.entity';
+import exp from 'constants';
 
 async function clearDb(app: INestApplication): Promise<void> {
   const entityManager = app.get<EntityManager>(EntityManager);
@@ -431,7 +432,8 @@ describe('AppController (e2e)', () => {
   describe('order module', () => {
     var customer: User;
     var forwarder: User;
-    var sheet: Sheet;
+    var sheet0: Sheet;
+    var sheet1: Sheet;
     var answer: Answer;
     beforeEach(async () => {
       await request(app.getHttpServer())
@@ -455,11 +457,16 @@ describe('AppController (e2e)', () => {
       await request(app.getHttpServer())
         .post('/api/sheet/create')
         .send(sheetdto);
-      sheet = (await request(app.getHttpServer()).get('/api/sheet').send())
-        .body[0];
+      await request(app.getHttpServer())
+        .post('/api/sheet/create')
+        .send(sheetdto);
+      const sheets = (await request(app.getHttpServer()).get('/api/sheet').send())
+        .body;
+      sheet0 = sheets[0];
+      sheet1 = sheets[1];
       var dto = Object.assign({}, testanswertemp);
       dto.forwarderID = forwarder.id;
-      dto.Sheetid = sheet.id;
+      dto.Sheetid = sheet0.id;
       await request(app.getHttpServer()).post('/api/answer/create').send(dto);
       answer = (
         await request(app.getHttpServer())
@@ -470,7 +477,7 @@ describe('AppController (e2e)', () => {
 
     it('/api/order/create (POST)', async () => {
       var dto = Object.assign({}, testordertemp);
-      dto.sheetid = sheet.id;
+      dto.sheetid = sheet0.id;
       dto.answerid = answer.id;
       const res = await request(app.getHttpServer())
         .post('/api/order/create')
@@ -486,45 +493,76 @@ describe('AppController (e2e)', () => {
         .post('/api/order/create')
         .send(dto);
       expect(res.status).toBe(HttpStatus.BAD_REQUEST);
+      expect(res.body.message).toBe("Unknown sheet");
     });
 
     it('/api/order/create (POST) unvalid answer', async () => {
       var dto = Object.assign({}, testordertemp);
-      dto.sheetid = sheet.id;
+      dto.sheetid = sheet0.id;
       dto.answerid = '0';
       const res = await request(app.getHttpServer())
         .post('/api/order/create')
         .send(dto);
       expect(res.status).toBe(HttpStatus.BAD_REQUEST);
+      expect(res.body.message).toBe("Unknown answer");
     });
 
-    it('/api/order/answerid/{:answerID} (GET)', async () => {
+    it('/api/order/create (POST) unpaired', async () => {
       var dto = Object.assign({}, testordertemp);
-      dto.sheetid = sheet.id;
+      dto.sheetid = sheet1.id;
+      dto.answerid = answer.id;
+      const res = await request(app.getHttpServer())
+        .post('/api/order/create')
+        .send(dto);
+      expect(res.status).toBe(HttpStatus.BAD_REQUEST);
+      expect(res.body.message).toBe("Unpaired answer and sheet");
+    });
+
+    it('/api/order/sheetid/{:sheetID} (GET)', async () => {
+      var dto = Object.assign({}, testordertemp);
+      dto.sheetid = sheet0.id;
       dto.answerid = answer.id;
       await request(app.getHttpServer())
         .post('/api/order/create')
         .send(dto);
       const res = await request(app.getHttpServer())
-      .get('/api/order/sheetid/'+sheet.id)
+      .get('/api/order/sheetid/'+sheet0.id)
       .send();
       expect(res.status).toBe(HttpStatus.OK);
-      expect(res.body.sheetId).toBe(sheet.id);
+      expect(res.body.sheetId).toBe(sheet0.id);
     });
 
-    it('/api/order/answerid/{:answerID} (GET) null', async () => {
+    it('/api/order/sheetid/{:sheetID} (GET) null', async () => {
       const res = await request(app.getHttpServer())
-      .get('/api/order/sheetid/'+sheet.id)
+      .get('/api/order/sheetid/'+sheet0.id)
       .send();
       expect(res.status).toBe(HttpStatus.OK);
       expect(res.body).toStrictEqual({});
     });
 
-    it('/api/order/answerid/{:answerID} (GET) invalid answer', async () => {
+    it('/api/order/sheetid/{:sheetID} (GET) invalid sheet', async () => {
       const res = await request(app.getHttpServer())
       .get('/api/order/sheetid/0')
       .send();
       expect(res.status).toBe(HttpStatus.BAD_REQUEST);
+      expect(res.body.message).toBe("Unknown sheet");
+    });
+
+    it('/api/order/answerid/{:answerID} (GET)', async () => {
+      var dto = Object.assign({}, testordertemp);
+      dto.sheetid = sheet0.id;
+      dto.answerid = answer.id;
+      await request(app.getHttpServer())
+        .post('/api/order/create')
+        .send(dto);
+      const order = (await request(app.getHttpServer())
+      .get('/api/order/sheetid/'+sheet0.id)
+      .send()).body;
+      const res = await request(app.getHttpServer())
+      .get('/api/order/answerid/'+answer.id)
+      .send();
+      expect(res.status).toBe(HttpStatus.OK);
+      expect(res.body).toStrictEqual(order);
     });
   });
 
