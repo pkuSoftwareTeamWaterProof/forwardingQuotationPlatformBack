@@ -40,5 +40,6 @@ export class Ordert {
   updatedAt: Date | undefined;
 
   @OneToOne((type) => Evaluation, (evaluation) => evaluation.order)
+  @JoinColumn()
   evaluation: Evaluation | null;
 }

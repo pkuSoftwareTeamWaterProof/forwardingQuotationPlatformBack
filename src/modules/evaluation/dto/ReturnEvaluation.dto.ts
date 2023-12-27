@@ -7,11 +7,6 @@ export class ReturnEvaluationDTO {
   id: string;
 
   @ApiProperty({
-    description: '订单id',
-  })
-  orderId: string;
-
-  @ApiProperty({
     description: '评分',
     example: 4,
   })

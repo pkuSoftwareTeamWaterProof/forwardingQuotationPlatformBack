@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { OrderService } from '../order/order.service';
 import { Evaluation } from './entity/evaluation.entity';
-import { Repository } from 'typeorm';
+import { Double, Repository } from 'typeorm';
 import { CreateEvaluationDTO } from './dto/CreateEvaluation.dto';
 
 @Injectable()
@@ -55,7 +55,8 @@ export class EvaluationService {
     forwarderId: string
   ): Promise<Array<Evaluation>> {
     const orders = await this.orderService.getOrderByForwarderId(forwarderId);
-    return orders.map((order) => order.evaluation).filter(score => !(score === null));
+    console.log(orders.length)
+    return orders.map((order) => order.evaluation).filter(entry => !(entry === null));
   }
 
   async getAvgEvalOfForwarder(forwarderId: string): Promise<number | null> {

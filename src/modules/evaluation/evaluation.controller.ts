@@ -26,7 +26,6 @@ export class EvaluationController {
     res.id = entry.id;
     res.score = entry.score;
     res.comment = entry.comment;
-    res.orderId = entry.order === null ? null : entry.order.id;
     res.createdAt = entry.createdAt;
     return res;
   }
@@ -90,7 +89,8 @@ export class EvaluationController {
   async getEvaluationsByForwarderId(
     @Param('id') forwarderId: string
   ): Promise<Array<ReturnEvaluationDTO>> {
-    return (await this.service.getEvaluationsByForwarderId(forwarderId)).map(
+    const evals = await this.service.getEvaluationsByForwarderId(forwarderId)
+    return evals.map(
       this.evaluationWrapper
     );
   }

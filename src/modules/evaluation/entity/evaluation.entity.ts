@@ -15,7 +15,6 @@ export class Evaluation {
   id: string;
 
   @OneToOne((type) => Ordert, (order) => order.evaluation)
-  @JoinColumn()
   order: Ordert;
 
   @Column()
