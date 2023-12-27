@@ -55,7 +55,6 @@ export class EvaluationService {
     forwarderId: string
   ): Promise<Array<Evaluation>> {
     const orders = await this.orderService.getOrderByForwarderId(forwarderId);
-    console.log(orders.length)
     return orders.map((order) => order.evaluation).filter(entry => !(entry === null));
   }
 
