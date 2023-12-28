@@ -37,7 +37,7 @@ import { Evaluation } from './modules/evaluation/entity/evaluation.entity';
       database: process.env.DB_NAME,
       // 创建的 entity 需要 import 到这里
       entities: [Firm, Sheet, Answer, User, Ordert, Evaluation],
-      synchronize: false,
+      synchronize: true,
       logging: false,
     }),
     AuthModule,
