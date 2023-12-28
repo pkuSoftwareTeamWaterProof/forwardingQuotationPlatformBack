@@ -1,7 +1,7 @@
 import { Body, Controller, Post, HttpCode, HttpStatus } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { SignInDTO } from './dto/singIn.dto';
+import { SignInDTO } from './dto/SignIn.dto';
 import { Public } from '../../decorators/public.decorator';
 
 @ApiTags('登录管理')

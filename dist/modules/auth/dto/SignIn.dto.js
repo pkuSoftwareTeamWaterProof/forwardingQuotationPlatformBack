@@ -28,4 +28,4 @@ __decorate([
     __metadata("design:type", String)
 ], SignInDTO.prototype, "password", void 0);
 exports.SignInDTO = SignInDTO;
-//# sourceMappingURL=singIn.dto.js.map
+//# sourceMappingURL=SignIn.dto.js.map
